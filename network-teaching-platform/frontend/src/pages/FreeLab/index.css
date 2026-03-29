@@ -1,0 +1,170 @@
+.freelab-page {
+  min-height: 100vh;
+  padding: calc(var(--nav-height) + 24px) 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.freelab-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.freelab-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--macos-blue), var(--macos-purple));
+  border-radius: var(--macos-radius-lg);
+  font-size: 32px;
+  color: #fff;
+}
+
+.freelab-header .ant-typography {
+  font-size: 36px !important;
+  color: var(--macos-text-primary) !important;
+  margin-bottom: 8px !important;
+}
+
+.freelab-header .ant-typography:last-child {
+  font-size: 16px !important;
+  color: var(--macos-text-secondary) !important;
+}
+
+.freelab-content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 200px 1fr 280px;
+  gap: 16px;
+  min-height: 600px;
+}
+
+@media (max-width: 1200px) {
+  .freelab-content {
+    grid-template-columns: 160px 1fr 240px;
+  }
+}
+
+@media (max-width: 900px) {
+  .freelab-content {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+  }
+}
+
+/* Device Library */
+.device-library {
+  padding: 20px;
+  border-radius: var(--macos-radius-xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.device-library h4 {
+  font-size: 14px;
+  color: var(--macos-text-tertiary);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.device-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.device-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+  cursor: grab;
+  transition: all var(--macos-transition-fast);
+}
+
+.device-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.device-item:active {
+  cursor: grabbing;
+}
+
+.device-icon {
+  font-size: 24px;
+}
+
+.device-item span {
+  font-size: 14px;
+  color: var(--macos-text-secondary);
+}
+
+/* Canvas Area */
+.canvas-area {
+  border-radius: var(--macos-radius-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--macos-text-tertiary);
+}
+
+.canvas-placeholder p {
+  margin-top: 16px;
+  font-size: 16px;
+}
+
+.canvas-placeholder .sub {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+/* Config Panel */
+.config-panel {
+  padding: 20px;
+  border-radius: var(--macos-radius-xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.config-panel h4 {
+  font-size: 14px;
+  color: var(--macos-text-tertiary);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.config-placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--macos-text-tertiary);
+}
+
+.config-placeholder p {
+  font-size: 14px;
+}
+
+.config-placeholder .sub {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-top: 8px;
+}

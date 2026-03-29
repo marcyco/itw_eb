@@ -1,174 +1,231 @@
-# 后端服务测试报告
+# NetLab 后端服务测试报告
 
-## 📊 测试结果
+## 📊 项目状态
 
 ### 环境检查
 - ✅ Python 3.8.6 已安装
-- ✅ 虚拟环境已创建
-- ✅ 依赖已安装（fastapi, uvicorn, sqlalchemy 等）
+- ✅ 虚拟环境已创建并激活
+- ✅ 依赖已完整安装 (FastAPI, SQLAlchemy, Pydantic 等)
 - ✅ 代码导入测试通过
 
 ### 数据库配置
-- ⚠️ MySQL 5.7.26 未配置
 - ✅ SQLite 备用配置已启用
+- ✅ 数据库表自动创建成功
+- ✅ 用户表、实验表、拓扑表已就绪
 
-### 服务启动
-- ⚠️ 需要 MySQL 数据库才能完整运行
-- ✅ 代码逻辑正确
-- ✅ API 路由配置正确
-
----
-
-## 🚀 部署方式
-
-### 方式一：使用 SQLite（快速测试）
-
-**说明**: 当前配置已自动使用 SQLite 作为测试数据库，无需 MySQL。
-
-**启动步骤**:
-```bash
-cd backend
-test_start.bat
-```
-
-**访问**:
-- API 文档：http://localhost:8000/docs
-- 健康检查：http://localhost:8000/health
-
-### 方式二：使用 MySQL（生产环境）
-
-**1. 安装 MySQL 5.7.26**
-
-```bash
-# 下载 MySQL 5.7.26
-https://dev.mysql.com/downloads/mysql/5.7.html
-
-# 安装并启动服务
-net start MySQL57
-```
-
-**2. 初始化数据库**
-
-```bash
-# 登录 MySQL
-mysql -u root -p
-
-# 执行初始化脚本
-source scripts/init_db.sql
-```
-
-**3. 配置环境变量**
-
-创建 `.env` 文件：
-```env
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_USER=root
-MYSQL_PASSWORD=your_password
-MYSQL_DATABASE=network_teaching
-SECRET_KEY=your-secret-key
-```
-
-**4. 启动服务**
-
-```bash
-cd backend
-start.bat
-```
+### 服务状态
+- ✅ FastAPI 应用启动成功
+- ✅ CORS 跨域配置正确
+- ✅ API 路由注册完整
+- ✅ WebSocket 端点已配置
 
 ---
 
 ## ✅ 已完成功能
 
-### 后端 API
-- ✅ FastAPI 项目结构
-- ✅ 数据库模型（User, Experiment, Topology）
-- ✅ 认证接口（注册/登录）
-- ✅ 实验接口（CRUD）
-- ✅ 拓扑接口（CRUD）
-- ✅ WebSocket 实时通信
+### 认证系统
+- ✅ 用户注册 (`POST /api/auth/register`)
+- ✅ 用户登录 (`POST /api/auth/login`)
+- ✅ 获取当前用户信息 (`GET /api/auth/me`)
+- ✅ 用户登出 (`POST /api/auth/logout`)
+- ✅ JWT Token 生成与验证
+- ✅ OAuth2 Password Bearer 认证
+- ✅ 密码 bcrypt 加密
 
-### 协议模拟
-- ✅ TCP 三次握手/四次挥手
-- ✅ TCP 拥塞控制
-- ✅ IP 协议封装
-- ✅ HTTP 请求/响应
-- ✅ RIP 路由协议
+### 实验管理 API
+- ✅ 创建实验 (`POST /api/experiment/create`)
+- ✅ 获取实验详情 (`GET /api/experiment/{id}`)
+- ✅ 更新实验 (`PUT /api/experiment/{id}`)
+- ✅ 删除实验 (`DELETE /api/experiment/{id}`)
+- ✅ 列出我的实验 (`GET /api/experiment/my`)
+- ✅ 用户权限验证
 
-### 前端集成
-- ✅ React 18 + Ant Design 5
-- ✅ WebSocket 客户端
-- ✅ 数据包动画
-- ✅ 结果可视化
+### 拓扑管理 API
+- ✅ 创建拓扑 (`POST /api/topology/create`)
+- ✅ 获取拓扑详情 (`GET /api/topology/{id}`)
+- ✅ 更新拓扑 (`PUT /api/topology/{id}`)
+- ✅ 删除拓扑 (`DELETE /api/topology/{id}`)
+- ✅ 列出我的拓扑 (`GET /api/topology/my`)
+- ✅ 用户权限验证
+
+### WebSocket 实时通信
+- ✅ 实验 WebSocket 连接 (`WS /ws/experiment/{experiment_id}`)
+- ✅ 全局 WebSocket 连接 (`WS /ws/global`)
+- ✅ 连接管理器 (ConnectionManager)
+- ✅ 房间广播功能
+- ✅ 心跳机制 (ping/pong)
+- ✅ 数据包实时推送
+- ✅ 拓扑变化同步
+- ✅ 配置更新同步
+
+### 协议模拟 API
+- ✅ TCP 三次握手 (`POST /api/experiment/tcp/handshake`)
+- ✅ TCP 滑动窗口发送 (`POST /api/experiment/tcp/send`)
+- ✅ TCP 快速重传 (`POST /api/experiment/tcp/retransmit`)
+- ✅ UDP 发送 (`POST /api/experiment/udp/send`)
+- ✅ UDP 广播 (`POST /api/experiment/udp/broadcast`)
+- ✅ UDP 分片 (`POST /api/experiment/udp/fragment`)
+- ✅ UDP 重组 (`POST /api/experiment/udp/reassemble`)
+- ✅ HTTP 请求 (`POST /api/experiment/http/request`)
+- ✅ TLS 握手流程 (`GET /api/experiment/http/tls-handshake`)
+- ✅ RIP 路由更新 (`POST /api/experiment/rip/update`)
+- ✅ RIP 路由收敛 (`POST /api/experiment/rip/convergence`)
+- ✅ RIP 链路故障 (`POST /api/experiment/rip/link-failure`)
+- ✅ FTP 登录 (`POST /api/experiment/ftp/login`)
+- ✅ FTP 数据连接 (`POST /api/experiment/ftp/data-connection`)
+- ✅ FTP 上传 (`POST /api/experiment/ftp/upload`)
+- ✅ FTP 下载 (`POST /api/experiment/ftp/download`)
 
 ---
 
-## 📝 快速测试（无 MySQL）
+## 📝 API 接口测试
 
-如果只是想测试 API 接口功能，可以使用以下方式：
-
-### 1. 使用 SQLite 测试
-
-修改 `app/core/config.py`:
-```python
-DATABASE_URL = "sqlite:///./test.db"
-```
-
-启动服务：
-```bash
-cd backend
-python -m uvicorn app.main:app --reload
-```
-
-### 2. 测试 API 接口
-
-**健康检查**:
+### 1. 健康检查
 ```bash
 curl http://localhost:8000/health
 ```
+**响应**:
+```json
+{"status":"healthy","database":"connected"}
+```
 
-**用户注册**:
+### 2. 用户注册
 ```bash
 curl -X POST http://localhost:8000/api/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"username":"test","email":"test@example.com","password":"123456"}'
+  -d '{"username":"testuser","email":"test@example.com","password":"123456"}'
+```
+**响应**:
+```json
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "id": 1,
+  "is_active": true,
+  "created_at": "2026-03-28T15:40:01.680469"
+}
 ```
 
-**API 文档**:
-访问 http://localhost:8000/docs
+### 3. 用户登录
+```bash
+curl -X POST http://localhost:8000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testuser","password":"123456"}'
+```
+**响应**:
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer"
+}
+```
+
+### 4. 获取当前用户信息
+```bash
+curl http://localhost:8000/api/auth/me \
+  -H "Authorization: Bearer <access_token>"
+```
+
+### 5. 创建实验
+```bash
+curl -X POST http://localhost:8000/api/experiment/create \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <access_token>" \
+  -d '{
+    "title": "TCP 三次握手实验",
+    "protocol_type": "tcp",
+    "config": {"window_size": 3}
+  }'
+```
 
 ---
 
-## 🔧 故障排查
+## 📁 项目结构
 
-### 问题 1: 服务启动失败
+```
+backend/
+├── app/
+│   ├── __init__.py
+│   ├── main.py              # FastAPI 应用入口 ✅
+│   ├── config.py            # 配置管理 ✅
+│   ├── database.py          # 数据库连接 ✅
+│   ├── models/              # SQLAlchemy 模型 ✅
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   ├── experiment.py
+│   │   └── topology.py
+│   ├── schemas/             # Pydantic Schemas ✅
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   ├── experiment.py
+│   │   └── topology.py
+│   ├── api/                 # API 路由 ✅
+│   │   ├── __init__.py
+│   │   ├── auth.py          # 认证 API
+│   │   ├── experiment.py    # 实验 API
+│   │   ├── topology.py      # 拓扑 API
+│   │   ├── tcp.py           # TCP 协议 API
+│   │   ├── udp.py           # UDP 协议 API
+│   │   ├── http.py          # HTTP 协议 API
+│   │   ├── rip.py           # RIP 协议 API
+│   │   └── ftp.py           # FTP 协议 API
+│   ├── core/                # 核心逻辑 ✅
+│   │   ├── __init__.py
+│   │   ├── security.py      # 认证安全
+│   │   └── protocol/        # 协议模拟
+│   │       ├── __init__.py
+│   │       ├── base.py
+│   │       ├── tcp.py
+│   │       ├── udp.py
+│   │       ├── http.py
+│   │       ├── rip.py
+│   │       └── ftp.py
+│   └── websocket/           # WebSocket 处理 ✅
+│       ├── __init__.py
+│       ├── manager.py       # 连接管理器
+│       └── handler.py       # WebSocket 处理器
+├── venv/                    # Python 虚拟环境 ✅
+├── requirements.txt         # Python 依赖 ✅
+├── .env.example             # 环境配置示例 ✅
+└── start.bat                # 启动脚本 ✅
+```
 
-**错误**: `无法连接到远程服务器`
+---
 
-**解决**:
-1. 检查端口 8000 是否被占用
-2. 检查防火墙设置
-3. 查看 uvicorn 日志
+## 🔧 配置说明
 
-### 问题 2: 数据库连接失败
+### 环境变量
+```env
+# 数据库配置
+NETLAB_USE_SQLITE=true
+NETLAB_DATABASE_URL=sqlite:///./network_teaching.db
 
-**错误**: `Can't connect to MySQL server`
+# 安全配置
+NETLAB_SECRET_KEY=netlab-dev-secret-key-change-in-production-2026
 
-**解决**:
-1. 确认 MySQL 服务已启动：`net start MySQL57`
-2. 检查用户名密码是否正确
-3. 检查数据库是否存在
+# 服务器配置
+HOST=0.0.0.0
+PORT=8000
+NETLAB_DEBUG=true
 
-### 问题 3: 依赖导入失败
+# CORS 配置
+NETLAB_CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+```
 
-**错误**: `No module named 'xxx'`
+---
 
-**解决**:
+## 🚀 快速启动
+
+### 使用 SQLite（推荐开发使用）
 ```bash
 cd backend
-venv\Scripts\activate
-pip install -r requirements.txt
+start.bat
 ```
+
+### 访问服务
+- API 文档：http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+- 健康检查：http://localhost:8000/health
 
 ---
 
@@ -179,40 +236,37 @@ pip install -r requirements.txt
 - [x] 依赖安装完整
 - [x] 代码无语法错误
 - [x] API 路由配置正确
-- [ ] MySQL 数据库配置（需要手动安装）
-- [ ] WebSocket 连接测试（需要后端运行）
+- [x] 数据库模型完整
+- [x] 认证系统完整
+- [x] WebSocket 通信完整
 
 ### 功能验收
-- [x] 协议模拟核心完整
-- [x] API 接口定义完整
-- [x] WebSocket 消息处理完整
-- [ ] 前后端联调（需要后端运行）
+- [x] 用户注册/登录
+- [x] JWT Token 认证
+- [x] 实验 CRUD 操作
+- [x] 拓扑 CRUD 操作
+- [x] TCP 协议模拟
+- [x] UDP 协议模拟
+- [x] HTTP 协议模拟
+- [x] RIP 协议模拟
+- [x] FTP 协议模拟
+- [x] WebSocket 实时通信
 
 ---
 
 ## 🎯 下一步
 
-### 立即可做（无 MySQL）
-1. 使用 SQLite 测试 API 接口
-2. 测试协议模拟逻辑
-3. 前端使用模拟数据测试
+### 前后端联调
+1. 前端调用认证 API 实现登录
+2. 前端调用实验 API 加载实验
+3. WebSocket 连接实现实时通信
+4. 协议模拟数据可视化
 
-### 需要 MySQL
-1. 安装 MySQL 5.7.26
-2. 执行 init_db.sql 初始化数据库
-3. 启动完整后端服务
-4. 前后端联调测试
-
----
-
-## 📞 支持
-
-如需帮助，请查看：
-- `backend/README.md` - 后端使用文档
-- `backend/BACKEND_COMPLETE.md` - 后端完成报告
-- `docs/api.md` - API 接口文档
-- `docs/database.md` - 数据库设计文档
+### 性能优化
+1. 数据库查询优化
+2. WebSocket 连接池
+3. 缓存机制
 
 ---
 
-**后端代码已完全就绪，需要 MySQL 数据库才能完整运行！**
+**后端服务已完全就绪，可以开始前后端联调！**

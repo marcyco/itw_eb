@@ -1,0 +1,234 @@
+/* macOS Sonoma Design System - Global Styles */
+
+:root {
+  /* macOS Sonoma 颜色系统 */
+  --macos-bg-primary: #0a0a0f;
+  --macos-bg-secondary: #16161d;
+  --macos-bg-tertiary: #1c1c24;
+  
+  /* 毛玻璃效果 */
+  --macos-glass-dark: rgba(22, 22, 29, 0.65);
+  --macos-glass-light: rgba(255, 255, 255, 0.08);
+  --macos-glass-border: rgba(255, 255, 255, 0.12);
+  --macos-glass-blur: 40px;
+  
+  /* 系统强调色 */
+  --macos-blue: #007AFF;
+  --macos-purple: #BF5AF2;
+  --macos-pink: #FF375F;
+  --macos-red: #FF453A;
+  --macos-orange: #FF9500;
+  --macos-yellow: #FFCC00;
+  --macos-green: #30D158;
+  --macos-teal: #5AC8FA;
+  --macos-indigo: #5E5CE6;
+  
+  /* 文本颜色 */
+  --macos-text-primary: rgba(255, 255, 255, 1);
+  --macos-text-secondary: rgba(255, 255, 255, 0.7);
+  --macos-text-tertiary: rgba(255, 255, 255, 0.45);
+  
+  /* 阴影 */
+  --macos-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --macos-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --macos-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.28);
+  --macos-shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.32);
+  
+  /* 圆角 */
+  --macos-radius-sm: 8px;
+  --macos-radius-md: 12px;
+  --macos-radius-lg: 16px;
+  --macos-radius-xl: 24px;
+  --macos-radius-2xl: 32px;
+  
+  /* 动画 */
+  --macos-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --macos-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --macos-transition-fast: 0.15s var(--macos-easing);
+  --macos-transition-normal: 0.3s var(--macos-easing);
+  --macos-transition-slow: 0.5s var(--macos-easing-spring);
+  
+  /* 布局 */
+  --nav-height: 52px;
+  --dock-height: 80px;
+  --sidebar-width: 280px;
+}
+
+/* 全局重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  background: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0f 50%, #000000 100%);
+  color: var(--macos-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+#root {
+  height: 100%;
+}
+
+/* 滚动条 - macOS 风格 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 毛玻璃通用类 */
+.glass {
+  background: var(--macos-glass-dark);
+  backdrop-filter: blur(var(--macos-glass-blur));
+  -webkit-backdrop-filter: blur(var(--macos-glass-blur));
+  border: 1px solid var(--macos-glass-border);
+}
+
+.glass-light {
+  background: var(--macos-glass-light);
+  backdrop-filter: blur(var(--macos-glass-blur));
+  -webkit-backdrop-filter: blur(var(--macos-glass-blur));
+  border: 1px solid var(--macos-glass-border);
+}
+
+/* 渐变文字 */
+.gradient-text {
+  background: linear-gradient(135deg, var(--macos-blue), var(--macos-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 呼吸灯动画 */
+@keyframes breathing {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 122, 255, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 122, 255, 0.8);
+    transform: scale(1.02);
+  }
+}
+
+.breathing {
+  animation: breathing 2s ease-in-out infinite;
+}
+
+/* 浮动动画 */
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+/* 粒子背景动画 */
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100px, -100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* 淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s var(--macos-easing) forwards;
+}
+
+/* 缩放进入动画 */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.scale-in {
+  animation: scaleIn 0.4s var(--macos-easing-spring) forwards;
+}
+
+/* 滑出动画 */
+@keyframes flyOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100px) scale(0.8);
+  }
+}
+
+.fly-out {
+  animation: flyOut 0.5s var(--macos-easing) forwards;
+}
+
+/* 通用工具类 */
+.text-primary { color: var(--macos-text-primary); }
+.text-secondary { color: var(--macos-text-secondary); }
+.text-tertiary { color: var(--macos-text-tertiary); }
+
+.shadow-sm { box-shadow: var(--macos-shadow-sm); }
+.shadow-md { box-shadow: var(--macos-shadow-md); }
+.shadow-lg { box-shadow: var(--macos-shadow-lg); }
+.shadow-xl { box-shadow: var(--macos-shadow-xl); }
+
+.radius-sm { border-radius: var(--macos-radius-sm); }
+.radius-md { border-radius: var(--macos-radius-md); }
+.radius-lg { border-radius: var(--macos-radius-lg); }
+.radius-xl { border-radius: var(--macos-radius-xl); }
+.radius-2xl { border-radius: var(--macos-radius-2xl); }

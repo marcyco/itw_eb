@@ -1,0 +1,133 @@
+.dock-container {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.dock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--macos-glass-dark);
+  backdrop-filter: blur(var(--macos-glass-blur));
+  -webkit-backdrop-filter: blur(var(--macos-glass-blur));
+  border: 1px solid var(--macos-glass-border);
+  border-radius: var(--macos-radius-2xl);
+  box-shadow: var(--macos-shadow-xl);
+  pointer-events: auto;
+  transition: all var(--macos-transition-normal);
+}
+
+.dock:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+.dock-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: var(--macos-radius-md);
+  cursor: pointer;
+  transition: all var(--macos-transition-spring);
+  min-width: 56px;
+}
+
+.dock-item:hover {
+  transform: scale(1.2) translateY(-8px);
+}
+
+.dock-item.hovered {
+  transform: scale(1.15) translateY(-6px);
+}
+
+.dock-item.active {
+  transform: scale(1.1);
+}
+
+.dock-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--macos-radius-md);
+  font-size: 24px;
+  color: var(--macos-text-secondary);
+  transition: all var(--macos-transition-fast);
+}
+
+.dock-item:hover .dock-icon,
+.dock-item.hovered .dock-icon {
+  color: var(--macos-text-primary);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dock-item.active .dock-icon {
+  color: #fff;
+  background: linear-gradient(135deg, var(--macos-blue), var(--macos-purple));
+}
+
+.dock-item.settings .dock-icon {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dock-item.settings:hover .dock-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Dock Indicator */
+.dock-indicator {
+  width: 4px;
+  height: 4px;
+  background: var(--macos-blue);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+}
+
+/* Separator */
+.dock-separator {
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dock-container {
+    bottom: 12px;
+  }
+
+  .dock {
+    padding: 10px 12px;
+    gap: 4px;
+  }
+
+  .dock-item {
+    min-width: 44px;
+  }
+
+  .dock-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .dock-item:hover,
+  .dock-item.hovered,
+  .dock-item.active {
+    transform: none;
+  }
+}

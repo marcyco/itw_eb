@@ -1,0 +1,187 @@
+/* Onboarding Guide Styles */
+
+.onboarding-modal .ant-modal-content {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.onboarding-guide {
+  background: var(--macos-glass-dark);
+  backdrop-filter: blur(var(--macos-glass-blur));
+  -webkit-backdrop-filter: blur(var(--macos-glass-blur));
+  border-radius: var(--macos-radius-2xl);
+  border: 1px solid var(--macos-glass-border);
+  overflow: hidden;
+}
+
+.onboarding-progress {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--macos-blue), var(--macos-purple));
+  transition: width 0.3s var(--macos-easing);
+}
+
+.onboarding-content {
+  padding: 48px 40px 32px;
+  text-align: center;
+}
+
+.onboarding-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.onboarding-title {
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  color: var(--macos-text-primary) !important;
+  margin-bottom: 16px !important;
+}
+
+.onboarding-content-text {
+  font-size: 16px !important;
+  line-height: 1.8 !important;
+  color: var(--macos-text-secondary) !important;
+  max-width: 500px;
+  margin: 0 auto !important;
+}
+
+.onboarding-tip {
+  margin-top: 24px;
+  padding: 12px 20px;
+  background: rgba(0, 122, 255, 0.1);
+  border-radius: var(--macos-radius-md);
+  font-size: 14px;
+  color: var(--macos-text-secondary);
+  display: inline-block;
+}
+
+.onboarding-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--macos-text-primary) !important;
+  border-radius: var(--macos-radius-md) !important;
+  padding: 8px 20px !important;
+  transition: all var(--macos-transition-fast) !important;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateX(-2px) !important;
+}
+
+.nav-btn:disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+}
+
+.next-btn {
+  background: linear-gradient(135deg, var(--macos-blue), var(--macos-purple)) !important;
+  border: none !important;
+  border-radius: var(--macos-radius-md) !important;
+  padding: 8px 24px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3) !important;
+  transition: all var(--macos-transition-fast) !important;
+}
+
+.next-btn:hover {
+  transform: translateX(2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4) !important;
+}
+
+.indicators {
+  display: flex;
+  gap: 8px;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all var(--macos-transition-fast);
+  padding: 0;
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.indicator.active {
+  background: var(--macos-blue);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.skip-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: var(--macos-text-tertiary) !important;
+  font-size: 14px !important;
+}
+
+.skip-btn:hover {
+  color: var(--macos-text-secondary) !important;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .onboarding-content {
+    padding: 32px 24px 24px;
+  }
+
+  .onboarding-title {
+    font-size: 22px !important;
+  }
+
+  .onboarding-content-text {
+    font-size: 14px !important;
+  }
+
+  .onboarding-navigation {
+    padding: 20px 24px;
+  }
+
+  .onboarding-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+}

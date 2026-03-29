@@ -1,0 +1,627 @@
+/* Protocol Learning Page */
+.protocol-learning-page {
+  min-height: 100vh;
+  padding: calc(var(--nav-height) + 40px) 24px 40px;
+}
+
+.learning-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.protocol-title {
+  font-size: 42px !important;
+  font-weight: 700 !important;
+  color: var(--macos-text-primary) !important;
+  margin-bottom: 8px !important;
+}
+
+.protocol-subtitle {
+  font-size: 16px;
+  color: var(--macos-text-tertiary);
+}
+
+/* Cards Wrapper */
+.cards-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.nav-btn {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--macos-text-primary) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--macos-transition-fast) !important;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: scale(1.1) !important;
+}
+
+.nav-btn:disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+}
+
+.cards-viewport {
+  flex: 1;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Knowledge Card */
+.knowledge-card {
+  width: 100%;
+  max-width: 700px;
+  padding: 48px;
+  border-radius: var(--macos-radius-2xl);
+  transition: all var(--macos-transition-normal);
+}
+
+.card-content {
+  text-align: center;
+}
+
+.slide-title {
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  color: var(--macos-text-primary) !important;
+  margin-bottom: 24px !important;
+}
+
+.slide-content {
+  font-size: 17px !important;
+  line-height: 1.8 !important;
+  color: var(--macos-text-secondary) !important;
+  max-width: 600px;
+  margin: 0 auto !important;
+}
+
+.slide-diagram {
+  margin-top: 40px;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Slide Indicators */
+.slide-indicators {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all var(--macos-transition-fast);
+  padding: 0;
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.indicator.active {
+  background: var(--macos-blue);
+  width: 28px;
+  border-radius: 5px;
+}
+
+/* Experiment CTA */
+.experiment-cta {
+  text-align: center;
+}
+
+.experiment-btn {
+  height: 52px !important;
+  padding: 0 48px !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  border-radius: var(--macos-radius-xl) !important;
+  background: linear-gradient(135deg, var(--macos-blue), var(--macos-purple)) !important;
+  border: none !important;
+  box-shadow: 0 8px 32px rgba(0, 122, 255, 0.4) !important;
+}
+
+/* Experiment Canvas */
+.experiment-page {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.experiment-canvas {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
+  overflow: hidden;
+}
+
+.canvas-header {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(22, 22, 29, 0.8);
+  backdrop-filter: blur(20px);
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--macos-text-primary) !important;
+}
+
+.canvas-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--macos-text-primary);
+}
+
+.canvas-main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Device Library */
+.device-library {
+  width: 160px;
+  padding: 16px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(22, 22, 29, 0.5);
+}
+
+.device-library h5 {
+  font-size: 14px;
+  color: var(--macos-text-secondary);
+  margin: 0;
+}
+
+.library-tips {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.library-tips p {
+  font-size: 11px;
+  color: var(--macos-text-tertiary);
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+/* Canvas Viewport */
+.canvas-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
+  cursor: grab;
+}
+
+.canvas-viewport:active {
+  cursor: grabbing;
+}
+
+.canvas-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform-origin: top left;
+}
+
+.connection-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.connection-path {
+  transition: stroke-width 0.2s ease;
+}
+
+/* Device Node */
+.device-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: grab;
+  padding: 8px;
+  border-radius: var(--macos-radius-md);
+  transition: transform 0.15s ease;
+  user-select: none;
+  z-index: 10;
+}
+
+.device-node:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.05);
+}
+
+.device-node.selected {
+  background: rgba(0, 122, 255, 0.2);
+  box-shadow: 0 0 0 2px var(--macos-blue);
+}
+
+.device-node.linking {
+  background: rgba(0, 122, 255, 0.3);
+  box-shadow: 0 0 0 3px var(--macos-blue);
+  animation: linkingPulse 1s ease-in-out infinite;
+}
+
+@keyframes linkingPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 122, 255, 0.1);
+  }
+}
+
+.device-node:active {
+  cursor: grabbing;
+}
+
+.device-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 20px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.device-info {
+  text-align: center;
+  pointer-events: none;
+}
+
+.device-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--macos-text-primary);
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.device-ip {
+  font-size: 10px;
+  color: var(--macos-text-tertiary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Link Button */
+.device-link-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--macos-blue);
+  background: var(--macos-blue);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.4);
+  transition: all 0.2s ease;
+  z-index: 20;
+  animation: linkBtnPop 0.3s ease-out;
+}
+
+@keyframes linkBtnPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.device-link-btn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.6);
+}
+
+.device-link-btn:active {
+  transform: scale(0.95);
+}
+
+/* Cancel Link Button */
+.device-cancel-link-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--macos-red);
+  background: var(--macos-red);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.4);
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+
+.device-cancel-link-btn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.6);
+}
+
+/* Connection Preview Line */
+.linking-preview {
+  stroke-dasharray: 5, 5;
+  animation: dashMove 1s linear infinite;
+}
+
+@keyframes dashMove {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+.connecting-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.pulse-ring {
+  width: 60px;
+  height: 60px;
+  border: 2px solid var(--device-color);
+  border-radius: 50%;
+  animation: pulseRing 1.5s ease-out infinite;
+}
+
+@keyframes nodePulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 122, 255, 0.1);
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Packet Animation */
+.packet-animation {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.packet-body {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--packet-color);
+  box-shadow: 0 0 12px var(--packet-color);
+  animation: packetGlow 1s ease-in-out infinite;
+}
+
+@keyframes packetGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 12px var(--packet-color);
+  }
+
+  50% {
+    box-shadow: 0 0 24px var(--packet-color);
+  }
+}
+
+.packet-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--packet-color);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+}
+
+/* Config Panel */
+.config-panel {
+  width: 260px;
+  padding: 16px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: rgba(22, 22, 29, 0.5);
+}
+
+.config-panel h5 {
+  font-size: 14px;
+  color: var(--macos-text-secondary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.device-config,
+.experiment-config {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.config-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.config-item label {
+  font-size: 12px;
+  color: var(--macos-text-secondary);
+}
+
+.config-item input[type="text"] {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--macos-radius-sm);
+  color: var(--macos-text-primary);
+  font-size: 13px;
+  transition: all var(--macos-transition-fast);
+}
+
+.config-item input[type="text"]:focus {
+  outline: none;
+  border-color: var(--macos-blue);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.panel-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.zoom-control {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Canvas Status Bar */
+.canvas-status {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .protocol-learning-page {
+    padding: calc(var(--nav-height) + 20px) 16px 20px;
+  }
+
+  .protocol-title {
+    font-size: 28px !important;
+  }
+
+  .cards-wrapper {
+    gap: 8px;
+  }
+
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .canvas-main {
+    flex-direction: column;
+  }
+
+  .device-library {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding: 12px;
+  }
+
+  .library-tips {
+    display: none;
+  }
+}

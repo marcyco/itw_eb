@@ -1,0 +1,194 @@
+/* HTTP Page Styles */
+
+/* HTTP Flow Diagram */
+.http-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.flow-participant {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+  min-width: 100px;
+}
+
+.participant-icon {
+  font-size: 36px;
+}
+
+.participant-name {
+  font-size: 14px;
+  color: var(--macos-text-secondary);
+}
+
+.flow-arrows {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.flow-arrow {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  border-radius: var(--macos-radius-sm);
+  position: relative;
+}
+
+.flow-arrow.request {
+  background: linear-gradient(90deg, rgba(0, 122, 255, 0.2), transparent);
+  border-left: 3px solid var(--macos-blue);
+  align-items: flex-start;
+}
+
+.flow-arrow.response {
+  background: linear-gradient(90deg, transparent, rgba(48, 209, 88, 0.2));
+  border-right: 3px solid var(--macos-green);
+  align-items: flex-end;
+}
+
+.flow-arrow span {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--macos-text-primary);
+}
+
+.flow-arrow small {
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+  margin-top: 4px;
+}
+
+/* Message Structure */
+.message-structure {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.message-part {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-sm);
+}
+
+.part-label {
+  min-width: 80px;
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.message-part code {
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  font-size: 13px;
+  color: var(--macos-text-secondary);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Status Codes Grid */
+.status-codes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.status-group {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+}
+
+.status-group h4 {
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: var(--macos-text-secondary);
+}
+
+.status-item {
+  font-size: 13px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  margin-bottom: 6px;
+  color: var(--macos-text-primary);
+}
+
+.status-group:last-child .status-item {
+  border-left: 2px solid var(--macos-red);
+}
+
+.status-group:first-child .status-item {
+  border-left: 2px solid var(--macos-green);
+}
+
+/* TLS Handshake Steps */
+.tls-handshake {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.handshake-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-sm);
+  border-left: 3px solid var(--macos-purple);
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--macos-purple), var(--macos-pink));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.step-content strong {
+  font-size: 14px;
+  color: var(--macos-text-primary);
+}
+
+.step-content small {
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .http-flow {
+    flex-direction: column;
+  }
+
+  .status-codes {
+    grid-template-columns: 1fr;
+  }
+}

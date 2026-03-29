@@ -1,0 +1,158 @@
+.courses-page {
+  min-height: 100vh;
+  padding: calc(var(--nav-height) + 40px) 24px 80px;
+  background: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0f 50%, #000000 100%);
+}
+
+.courses-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.courses-title {
+  font-size: 56px !important;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--macos-text-primary) !important;
+  margin-bottom: 16px !important;
+}
+
+.courses-subtitle {
+  font-size: 18px;
+  color: var(--macos-text-secondary);
+  font-weight: 300;
+}
+
+/* Courses Grid - Launchpad Style */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Course Card */
+.course-card {
+  position: relative;
+  height: 420px;
+  border-radius: var(--macos-radius-2xl);
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.course-card-inner {
+  height: 100%;
+  padding: 32px;
+  background: var(--macos-glass-dark);
+  backdrop-filter: blur(var(--macos-glass-blur));
+  -webkit-backdrop-filter: blur(var(--macos-glass-blur));
+  border: 1px solid var(--macos-glass-border);
+  border-radius: var(--macos-radius-2xl);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--macos-transition-normal);
+  box-shadow: var(--macos-shadow-md);
+}
+
+.course-card:hover .course-card-inner {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: var(--macos-shadow-xl);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Course Icon */
+.course-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--macos-radius-lg);
+  font-size: 40px;
+  color: #fff;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Course Info */
+.course-info {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.course-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--macos-text-primary);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.course-subtitle {
+  font-size: 14px;
+  color: var(--macos-text-tertiary);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.course-description {
+  font-size: 15px;
+  color: var(--macos-text-secondary);
+  line-height: 1.6;
+}
+
+/* Course Features */
+.course-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.feature-tag {
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--macos-radius-sm);
+  font-size: 13px;
+  color: var(--macos-text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all var(--macos-transition-fast);
+}
+
+.course-card:hover .feature-tag {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Course Action */
+.course-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--macos-blue);
+  font-weight: 500;
+  font-size: 15px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all var(--macos-transition-fast);
+}
+
+.course-card:hover .course-action {
+  color: var(--macos-teal);
+}
+
+.course-action .anticon {
+  transition: transform var(--macos-transition-fast);
+}
+
+.course-card:hover .course-action .anticon {
+  transform: translateX(4px);
+}

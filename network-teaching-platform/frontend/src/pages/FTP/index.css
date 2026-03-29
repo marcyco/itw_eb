@@ -1,0 +1,288 @@
+/* FTP Page Styles */
+
+/* FTP Connections */
+.ftp-connections {
+  padding: 20px;
+}
+
+.connection-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.endpoint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+  min-width: 100px;
+}
+
+.endpoint-icon {
+  font-size: 32px;
+}
+
+.endpoint-name {
+  font-size: 13px;
+  color: var(--macos-text-secondary);
+}
+
+.connection-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.connection-line {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--macos-radius-sm);
+}
+
+.connection-line.control {
+  background: rgba(0, 122, 255, 0.1);
+  border: 1px solid rgba(0, 122, 255, 0.2);
+}
+
+.connection-line.data {
+  background: rgba(48, 209, 88, 0.1);
+  border: 1px solid rgba(48, 209, 88, 0.2);
+}
+
+.line-label {
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+  text-transform: uppercase;
+}
+
+.line-arrows {
+  font-size: 13px;
+  color: var(--macos-text-primary);
+  font-family: 'SF Mono', monospace;
+}
+
+/* FTP Login Flow */
+.ftp-login {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-step {
+  display: grid;
+  grid-template-columns: 80px 40px 1fr 80px;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-sm);
+}
+
+.step-client, .step-server {
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+  text-align: center;
+}
+
+.step-arrow {
+  font-size: 18px;
+  color: var(--macos-blue);
+  text-align: center;
+}
+
+.step-command {
+  font-size: 13px;
+  color: var(--macos-blue);
+  font-family: 'SF Mono', monospace;
+  padding: 8px;
+  background: rgba(0, 122, 255, 0.1);
+  border-radius: 4px;
+}
+
+.step-response {
+  font-size: 13px;
+  color: var(--macos-orange);
+  font-family: 'SF Mono', monospace;
+  padding: 8px;
+  background: rgba(255, 149, 0, 0.1);
+  border-radius: 4px;
+}
+
+.step-response.success {
+  color: var(--macos-green);
+  background: rgba(48, 209, 88, 0.1);
+}
+
+/* FTP Modes */
+.ftp-modes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.mode-card {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+}
+
+.mode-card h4 {
+  font-size: 16px;
+  margin-bottom: 16px;
+  color: var(--macos-text-primary);
+}
+
+.mode-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.flow-row {
+  font-size: 12px;
+  color: var(--macos-text-secondary);
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-family: 'SF Mono', monospace;
+}
+
+.flow-row.highlight {
+  background: rgba(0, 122, 255, 0.15);
+  color: var(--macos-text-primary);
+  font-weight: 500;
+}
+
+.mode-note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+}
+
+/* FTP Commands Grid */
+.ftp-commands {
+  padding: 20px;
+}
+
+.commands-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.command-category {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+}
+
+.command-category h4 {
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: var(--macos-text-secondary);
+}
+
+.command-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.command-item:last-child {
+  border-bottom: none;
+}
+
+.command-item code {
+  font-family: 'SF Mono', monospace;
+  font-size: 13px;
+  color: var(--macos-blue);
+  background: rgba(0, 122, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.command-item span {
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+}
+
+/* FTP Transfer Flow */
+.ftp-transfer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px;
+}
+
+.transfer-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+  flex: 1;
+}
+
+.stage-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--macos-blue), var(--macos-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+}
+
+.stage-desc {
+  font-size: 12px;
+  color: var(--macos-text-secondary);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.transfer-arrow {
+  font-size: 24px;
+  color: var(--macos-text-tertiary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .connection-flow {
+    flex-direction: column;
+  }
+
+  .ftp-modes {
+    grid-template-columns: 1fr;
+  }
+
+  .commands-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ftp-transfer {
+    flex-wrap: wrap;
+  }
+
+  .transfer-arrow {
+    transform: rotate(90deg);
+  }
+}

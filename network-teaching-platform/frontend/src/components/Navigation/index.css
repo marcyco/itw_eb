@@ -1,0 +1,140 @@
+.navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  z-index: 1000;
+  transition: all var(--macos-transition-normal);
+}
+
+.navigation-content {
+  height: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--macos-blue), var(--macos-purple));
+  border-radius: var(--macos-radius-sm);
+  font-size: 20px;
+  color: #fff;
+  transition: transform var(--macos-transition-fast);
+}
+
+.logo:hover .logo-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--macos-blue), var(--macos-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+/* Menu */
+.navigation-menu {
+  flex: 1;
+  min-width: 0;
+  background: transparent !important;
+  border: none !important;
+  justify-content: center;
+}
+
+.navigation-menu .ant-menu-item {
+  margin: 0 4px !important;
+  padding: 0 16px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  border-radius: var(--macos-radius-sm) !important;
+  transition: all var(--macos-transition-fast) !important;
+}
+
+.navigation-menu .ant-menu-item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.navigation-menu .ant-menu-item-selected {
+  background: rgba(0, 122, 255, 0.2) !important;
+}
+
+.navigation-menu .ant-menu-item a {
+  color: var(--macos-text-secondary) !important;
+  transition: color var(--macos-transition-fast) !important;
+}
+
+.navigation-menu .ant-menu-item:hover a {
+  color: var(--macos-text-primary) !important;
+}
+
+.navigation-menu .ant-menu-item-selected a {
+  color: var(--macos-text-primary) !important;
+}
+
+.navigation-menu .ant-menu-item .anticon {
+  margin-right: 6px !important;
+  font-size: 16px !important;
+}
+
+/* Actions */
+.navigation-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--macos-radius-sm);
+  color: var(--macos-text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all var(--macos-transition-fast);
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--macos-text-primary);
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .navigation-content {
+    padding: 0 16px;
+  }
+
+  .navigation-menu {
+    display: none;
+  }
+}

@@ -1,0 +1,214 @@
+/* UDP Page Styles */
+
+.protocol-diagram {
+  margin-top: 32px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.diagram-row {
+  margin-bottom: 20px;
+}
+
+.diagram-row:last-child {
+  margin-bottom: 0;
+}
+
+.diagram-label {
+  font-size: 13px;
+  color: var(--macos-text-tertiary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.diagram-boxes {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.diagram-box {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.2), rgba(90, 200, 250, 0.1));
+  border: 1px solid rgba(0, 122, 255, 0.3);
+  border-radius: var(--macos-radius-sm);
+  text-align: center;
+  font-size: 13px;
+  color: var(--macos-text-primary);
+  transition: all var(--macos-transition-fast);
+}
+
+.diagram-box:hover {
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.3), rgba(90, 200, 250, 0.15));
+  transform: translateY(-2px);
+}
+
+.diagram-box.wide {
+  min-width: 100%;
+}
+
+/* Comparison View */
+.protocol-diagram.comparison {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.comparison-card {
+  flex: 1;
+  max-width: 200px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.comparison-card h4 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.comparison-card:first-child h4 {
+  color: var(--macos-blue);
+}
+
+.comparison-card:last-child h4 {
+  color: var(--macos-green);
+}
+
+.comparison-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comparison-card li {
+  font-size: 14px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.comparison-card li:last-child {
+  border-bottom: none;
+}
+
+/* Fragment Demo */
+.fragment-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.fragment-original {
+  width: 100%;
+  text-align: center;
+}
+
+.fragment-label {
+  font-size: 14px;
+  color: var(--macos-text-secondary);
+  margin-bottom: 8px;
+}
+
+.fragment-bar {
+  height: 40px;
+  background: linear-gradient(90deg, var(--macos-blue), var(--macos-purple));
+  border-radius: var(--macos-radius-sm);
+  margin: 0 auto;
+}
+
+.fragment-arrow {
+  font-size: 20px;
+  color: var(--macos-text-tertiary);
+}
+
+.fragment-pieces {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.fragment-piece {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: rgba(0, 122, 255, 0.1);
+  border: 1px solid rgba(0, 122, 255, 0.2);
+  border-left: 4px solid var(--macos-blue);
+  border-radius: var(--macos-radius-sm);
+}
+
+.fragment-piece span {
+  font-size: 14px;
+  color: var(--macos-text-primary);
+}
+
+.fragment-piece small {
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+}
+
+/* App Grid */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.app-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all var(--macos-transition-fast);
+}
+
+.app-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+}
+
+.app-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.app-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--macos-text-primary);
+  margin-bottom: 4px;
+}
+
+.app-item small {
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .protocol-diagram.comparison {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .comparison-card {
+    max-width: 100%;
+  }
+
+  .app-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

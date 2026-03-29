@@ -1,0 +1,304 @@
+/* RIP Page Styles */
+
+/* Topology Diagram */
+.rip-topology {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.topology-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+}
+
+.router-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(255, 149, 0, 0.1);
+  border: 1px solid rgba(255, 149, 0, 0.3);
+  border-radius: var(--macos-radius-md);
+}
+
+.router-icon {
+  font-size: 28px;
+}
+
+.router-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--macos-text-primary);
+}
+
+.routing-table-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  min-width: 120px;
+}
+
+.rt-entry {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--macos-text-tertiary);
+}
+
+.rt-entry span:last-child {
+  color: var(--macos-green);
+}
+
+.link-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--macos-orange), var(--macos-red));
+  border-radius: 2px;
+  position: relative;
+}
+
+.link-arrow {
+  position: absolute;
+  font-size: 16px;
+  color: var(--macos-text-primary);
+}
+
+.rip-info {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--macos-text-primary);
+}
+
+/* DV Algorithm */
+.dv-algorithm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.algorithm-step {
+  width: 100%;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+}
+
+.step-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--macos-text-secondary);
+  margin-bottom: 12px;
+}
+
+.step-table {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--macos-text-tertiary);
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--macos-text-primary);
+}
+
+.algorithm-arrow {
+  font-size: 24px;
+  color: var(--macos-text-tertiary);
+}
+
+.update-packet {
+  padding: 12px;
+  background: rgba(0, 122, 255, 0.1);
+  border: 1px solid rgba(0, 122, 255, 0.2);
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--macos-text-primary);
+}
+
+/* Loop Prevention */
+.loop-prevention {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.prevention-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+  text-align: center;
+}
+
+.prevention-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.prevention-card h4 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--macos-text-primary);
+}
+
+.prevention-card p {
+  font-size: 13px;
+  color: var(--macos-text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.example {
+  font-size: 12px;
+  color: var(--macos-text-tertiary);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  border-radius: 4px;
+  font-family: 'SF Mono', monospace;
+}
+
+/* Convergence */
+.convergence {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.convergence-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+  border-left: 3px solid var(--macos-blue);
+}
+
+.convergence-stage:nth-child(2) {
+  border-left-color: var(--macos-red);
+}
+
+.convergence-stage:nth-child(3) {
+  border-left-color: var(--macos-orange);
+}
+
+.convergence-stage:nth-child(4) {
+  border-left-color: var(--macos-green);
+}
+
+.stage-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--macos-text-secondary);
+}
+
+.network-viz {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: 'SF Mono', monospace;
+  font-size: 14px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.link-ok {
+  color: var(--macos-green);
+}
+
+.link-broken {
+  color: var(--macos-red);
+  text-decoration: line-through;
+}
+
+.link-update {
+  color: var(--macos-orange);
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.stage-status {
+  font-size: 13px;
+  color: var(--macos-text-primary);
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .topology-diagram {
+    flex-wrap: wrap;
+  }
+
+  .rip-info {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .loop-prevention {
+    grid-template-columns: 1fr;
+  }
+
+  .network-viz {
+    font-size: 12px;
+    flex-wrap: wrap;
+  }
+}
