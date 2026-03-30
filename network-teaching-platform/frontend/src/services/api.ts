@@ -2,9 +2,9 @@
  * API 服务层
  * 封装与后端的 HTTP 通信
  */
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import axios, { AxiosInstance } from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+const API_BASE_URL = (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:8000'
 
 // 创建 axios 实例
 const api: AxiosInstance = axios.create({

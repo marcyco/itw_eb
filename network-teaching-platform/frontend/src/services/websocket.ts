@@ -2,8 +2,9 @@
  * WebSocket 服务
  * 用于与后端建立实时通信连接
  */
+import { useEffect, useState } from 'react'
 
-export type WSMessageType = 'packet' | 'topology' | 'config' | 'event' | 'ping' | 'pong' | 'connected'
+export type WSMessageType = 'packet' | 'topology' | 'config' | 'event' | 'ping' | 'pong' | 'connected' | 'packet_send' | 'topology_change' | 'config_update' | 'chat_message'
 
 export interface WSMessage {
   type: WSMessageType
@@ -26,14 +27,13 @@ export interface WebSocketOptions {
 
 class WebSocketService {
   private ws: WebSocket | null = null
-  private url: string = ''
   private options: WebSocketOptions = {}
   private state: WSConnectionState = 'disconnected'
   private reconnectAttempts = 0
   private pingInterval: number | null = null
   private reconnectTimer: number | null = null
 
-  constructor() {}
+  constructor() { }
 
   /**
    * 连接到 WebSocket 服务器
@@ -49,7 +49,6 @@ class WebSocketService {
     }
 
     const wsUrl = `ws://localhost:8000/ws/experiment/${experimentId}`
-    this.url = wsUrl
 
     return new Promise((resolve, reject) => {
       try {
@@ -231,8 +230,6 @@ export const wsService = new WebSocketService()
  * React Hook - 使用 WebSocket
  */
 export function useWebSocket(experimentId: string | null, options?: WebSocketOptions) {
-  import { useEffect, useState } from 'react'
-
   const [isConnected, setIsConnected] = useState(false)
   const [lastMessage, setLastMessage] = useState<WSMessage | null>(null)
 

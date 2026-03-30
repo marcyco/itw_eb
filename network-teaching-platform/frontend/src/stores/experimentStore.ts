@@ -2,7 +2,7 @@
  * 实验状态管理
  */
 import { create } from 'zustand'
-import { ExperimentData, TCPPacket, UDPPacket } from '../services/api'
+import { ExperimentData } from '../services/api'
 
 interface Packet {
   id: string

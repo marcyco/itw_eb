@@ -1,8 +1,7 @@
 /**
- * 设备节点组件
- * 支持拖拽、选择、显示设备信息
+ * 设备节点组件 - 简化版
+ * 用于显示设备节点，拖拽逻辑已移至 ExperimentCanvas
  */
-import { useState } from 'react'
 import { DesktopOutlined, ApartmentOutlined, SwapOutlined, CloudOutlined } from '@ant-design/icons'
 import { Device, DeviceType } from './ExperimentCanvas'
 import './index.css'
@@ -12,13 +11,9 @@ interface DeviceNodeProps {
   isSelected: boolean
   isConnecting: boolean
   onSelect: (id: string) => void
-  onDrag: (id: string, x: number, y: number) => void
 }
 
-export default function DeviceNode({ device, isSelected, isConnecting, onSelect, onDrag }: DeviceNodeProps) {
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
-
+export default function DeviceNode({ device, isSelected, isConnecting, onSelect }: DeviceNodeProps) {
   const getIcon = (type: DeviceType) => {
     switch (type) {
       case 'host':
@@ -48,46 +43,17 @@ export default function DeviceNode({ device, isSelected, isConnecting, onSelect,
   const handleMouseDown = (e: React.MouseEvent) => {
     e.stopPropagation()
     onSelect(device.id)
-    setIsDragging(true)
-
-    const rect = (e.target as HTMLElement).getBoundingClientRect()
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    })
-  }
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return
-
-    const parent = (e.target as HTMLElement).closest('.canvas-grid')
-    if (!parent) return
-
-    const parentRect = parent.getBoundingClientRect()
-    const scale = 1 // 可以考虑 zoom 因子
-
-    const newX = (e.clientX - parentRect.left) / scale
-    const newY = (e.clientY - parentRect.top) / scale
-
-    onDrag(device.id, newX, newY)
-  }
-
-  const handleMouseUp = () => {
-    setIsDragging(false)
   }
 
   return (
     <div
-      className={`device-node ${isSelected ? 'selected' : ''} ${isConnecting ? 'connecting' : ''} ${isDragging ? 'dragging' : ''}`}
+      className={`device-node ${isSelected ? 'selected' : ''} ${isConnecting ? 'connecting' : ''}`}
       style={{
         left: device.x,
         top: device.y,
         '--device-color': getColor(device.type),
       } as React.CSSProperties}
       onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
     >
       <div className="device-icon">
         {getIcon(device.type)}

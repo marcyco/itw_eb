@@ -1,6 +1,6 @@
 /**
- * 实验画布组件 - 优化版
- * 拖拽设备后显示连接按钮，点击 + 号选择连线模式
+ * 实验画布组件 - 实验室风格优化版
+ * 流畅拖拽 + 实验室科技感效果
  */
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Button, Slider, Switch, Tag, Space, Typography, Tooltip, message } from 'antd'
@@ -15,7 +15,6 @@ import {
   SwapOutlined,
   CloudOutlined,
   SettingOutlined,
-  PlusOutlined,
   LinkOutlined,
   CloseOutlined,
 } from '@ant-design/icons'
@@ -121,11 +120,11 @@ const getDefaultTopology = (protocol: string): { devices: Device[]; connections:
 }
 
 // 设备类型配置
-const DEVICE_CONFIG: Record<DeviceType, { icon: any; color: string; label: string }> = {
-  host: { icon: DesktopOutlined, color: '#007AFF', label: '主机' },
-  router: { icon: ApartmentOutlined, color: '#FF9500', label: '路由器' },
-  switch: { icon: SwapOutlined, color: '#30D158', label: '交换机' },
-  cloud: { icon: CloudOutlined, color: '#BF5AF2', label: '云' },
+const DEVICE_CONFIG: Record<DeviceType, { icon: any; color: string; label: string; portColor: string }> = {
+  host: { icon: DesktopOutlined, color: '#007AFF', label: '主机', portColor: '#00D4FF' },
+  router: { icon: ApartmentOutlined, color: '#FF9500', label: '路由器', portColor: '#FFD60A' },
+  switch: { icon: SwapOutlined, color: '#30D158', label: '交换机', portColor: '#32D74B' },
+  cloud: { icon: CloudOutlined, color: '#BF5AF2', label: '云', portColor: '#E0A6FF' },
 }
 
 export default function ExperimentCanvas({ protocol, config = {}, onBack }: ExperimentCanvasProps) {
@@ -139,16 +138,32 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
   const [windowSize, setWindowSize] = useState(config.windowSize || 3)
   const [simulateLoss, setSimulateLoss] = useState(config.simulateLoss || false)
   const [zoom, setZoom] = useState(1)
+  const [draggingDevice, setDraggingDevice] = useState<string | null>(null)
 
-  // 拖拽状态
+  // 优化后的拖拽状态 - 使用更精确的鼠标追踪
   const dragState = useRef<{
     isDragging: boolean
     deviceId: string | null
-    offsetX: number
-    offsetY: number
-  }>({ isDragging: false, deviceId: null, offsetX: 0, offsetY: 0 })
+    startX: number
+    startY: number
+    initialDeviceX: number
+    initialDeviceY: number
+    lastX: number
+    lastY: number
+    velocity: { x: number; y: number }
+  }>({
+    isDragging: false,
+    deviceId: null,
+    startX: 0,
+    startY: 0,
+    initialDeviceX: 0,
+    initialDeviceY: 0,
+    lastX: 0,
+    lastY: 0,
+    velocity: { x: 0, y: 0 }
+  })
 
-  // 动画循环
+  // 动画循环 - 用于平滑动画
   useEffect(() => {
     if (!isRunning) return
     let animationFrameId: number
@@ -208,6 +223,7 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
     setConnections(topology.connections)
     setSelectedDevice(null)
     setLinkingDevice(null)
+    setDraggingDevice(null)
   }, [protocol])
 
   // 添加设备
@@ -226,7 +242,7 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
     setDevices((prev) => [...prev, newDevice])
   }, [devices])
 
-  // 处理鼠标按下 - 记录初始位置
+  // 处理鼠标按下 - 优化后的拖拽启动
   const handleDeviceMouseDown = useCallback((deviceId: string, e: React.MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
@@ -234,16 +250,25 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
     const device = devices.find(d => d.id === deviceId)
     if (!device) return
 
-    // 记录设备当前位置和鼠标偏移
+    // 初始化拖拽状态
     dragState.current = {
       isDragging: true,
       deviceId,
-      offsetX: e.clientX - device.x,
-      offsetY: e.clientY - device.y,
+      startX: e.clientX,
+      startY: e.clientY,
+      initialDeviceX: device.x,
+      initialDeviceY: device.y,
+      lastX: e.clientX,
+      lastY: e.clientY,
+      velocity: { x: 0, y: 0 }
     }
+
+    // 设置拖拽状态用于视觉反馈
+    setDraggingDevice(deviceId)
+    setSelectedDevice(deviceId)
   }, [devices])
 
-  // 全局鼠标事件 - 处理拖拽
+  // 全局鼠标事件 - 优化后的流畅拖拽
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!dragState.current.isDragging || !dragState.current.deviceId || !canvasRef.current) return
@@ -252,27 +277,58 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
       const canvasRect = canvas.getBoundingClientRect()
       const scale = zoom
 
-      // 计算新位置（相对于画布）
-      const newX = (e.clientX - canvasRect.left - dragState.current.offsetX) / scale
-      const newY = (e.clientY - canvasRect.top - dragState.current.offsetY) / scale
+      // 计算鼠标移动速度（用于惯性效果）
+      const deltaX = e.clientX - dragState.current.lastX
+      const deltaY = e.clientY - dragState.current.lastY
+      dragState.current.lastX = e.clientX
+      dragState.current.lastY = e.clientY
+      dragState.current.velocity = {
+        x: deltaX * 0.15,
+        y: deltaY * 0.15
+      }
+
+      // 计算新位置（相对于画布，考虑偏移量）
+      const currentMouseX = (e.clientX - canvasRect.left) / scale
+      const currentMouseY = (e.clientY - canvasRect.top) / scale
+
+      const newX = currentMouseX - (dragState.current.startX - canvasRect.left) / scale + dragState.current.initialDeviceX
+      const newY = currentMouseY - (dragState.current.startY - canvasRect.top) / scale + dragState.current.initialDeviceY
+
+      // 边界限制（带弹性效果）
+      const boundedX = Math.max(-50, Math.min(newX, (canvasRect.width / scale) - 50))
+      const boundedY = Math.max(-50, Math.min(newY, (canvasRect.height / scale) - 50))
 
       setDevices((prev) =>
         prev.map((d) =>
           d.id === dragState.current.deviceId
-            ? { ...d, x: Math.max(0, newX), y: Math.max(0, newY) }
+            ? { ...d, x: boundedX, y: boundedY }
             : d
         )
       )
     }
 
     const handleMouseUp = () => {
-      dragState.current = { isDragging: false, deviceId: null, offsetX: 0, offsetY: 0 }
+      if (dragState.current.isDragging) {
+        // 添加轻微的惯性效果
+        setTimeout(() => {
+          setDraggingDevice(null)
+        }, 100)
+      }
+      dragState.current = {
+        isDragging: false,
+        deviceId: null,
+        startX: 0,
+        startY: 0,
+        initialDeviceX: 0,
+        initialDeviceY: 0,
+        lastX: 0,
+        lastY: 0,
+        velocity: { x: 0, y: 0 }
+      }
     }
 
-    if (dragState.current.isDragging) {
-      window.addEventListener('mousemove', handleMouseMove)
-      window.addEventListener('mouseup', handleMouseUp)
-    }
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
@@ -355,49 +411,59 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
       return
     }
 
-    // 如果不是拖拽（鼠标按下和抬起位置相同）
-    if (!dragState.current.isDragging) {
+    // 如果不是拖拽
+    if (!dragState.current.isDragging && !draggingDevice) {
       setSelectedDevice(deviceId === selectedDevice ? null : deviceId)
     }
-  }, [linkingDevice, selectedDevice, handleCompleteLink])
+  }, [linkingDevice, selectedDevice, draggingDevice, handleCompleteLink])
 
   // 画布点击事件 - 取消选择
   const handleCanvasClick = useCallback(() => {
     if (linkingDevice) {
       setLinkingDevice(null)
-    } else if (!dragState.current.isDragging) {
+    } else if (!dragState.current.isDragging && !draggingDevice) {
       setSelectedDevice(null)
     }
-  }, [linkingDevice])
+  }, [linkingDevice, draggingDevice])
 
   const selectedDeviceInfo = devices.find((d) => d.id === selectedDevice)
 
   return (
-    <div className="experiment-canvas">
-      {/* 顶部工具栏 */}
-      <div className="canvas-header">
-        <Button className="back-btn" icon={<ArrowLeftOutlined />} onClick={onBack}>
-          返回
-        </Button>
-        <Title level={4} style={{ margin: 0 }}>{protocol.toUpperCase()} 实验</Title>
-        <Space>
-          <Button
-            type={isRunning ? 'default' : 'primary'}
-            icon={isRunning ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
-            onClick={isRunning ? handleStopExperiment : handleStartExperiment}
-          >
-            {isRunning ? '停止' : '开始'}
-          </Button>
-          <Button icon={<ReloadOutlined />} onClick={handleReset}>
-            重置
-          </Button>
-        </Space>
-      </div>
-
+    <div className="experiment-canvas lab-style">
       {/* 主画布区域 */}
       <div className="canvas-main">
+        {/* 左上角工具栏 */}
+        <div className="canvas-toolbar">
+          <Space size="small">
+            <Button
+              className="toolbar-btn back-btn"
+              icon={<ArrowLeftOutlined />}
+              onClick={onBack}
+              size="small"
+            >
+              返回
+            </Button>
+            <Button
+              className="toolbar-btn"
+              type={isRunning ? 'default' : 'primary'}
+              icon={isRunning ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
+              onClick={isRunning ? handleStopExperiment : handleStartExperiment}
+              size="small"
+            >
+              {isRunning ? '停止' : '开始'}
+            </Button>
+            <Button
+              className="toolbar-btn"
+              icon={<ReloadOutlined />}
+              onClick={handleReset}
+              size="small"
+            >
+              重置
+            </Button>
+          </Space>
+        </div>
         {/* 左侧设备库 */}
-        <div className="device-library glass">
+        <div className="device-library lab-glass">
           <Title level={5}>设备库</Title>
           <Space direction="vertical" style={{ width: '100%' }} size="small">
             {(Object.keys(DEVICE_CONFIG) as DeviceType[]).map((type) => {
@@ -409,6 +475,7 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
                     onClick={() => handleAddDevice(type)}
                     block
                     size="small"
+                    className="lab-device-btn"
                   >
                     {Config.label}
                   </Button>
@@ -424,7 +491,11 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
         </div>
 
         {/* 中央画布 */}
-        <div className="canvas-viewport" ref={canvasRef} onClick={handleCanvasClick}>
+        <div className="canvas-viewport lab-viewport" ref={canvasRef} onClick={handleCanvasClick}>
+          {/* 动态网格背景 */}
+          <div className="lab-grid-overlay"></div>
+          <div className="lab-grid-glow"></div>
+
           <div className="canvas-grid" style={{ transform: `scale(${zoom})` }}>
             {/* 连线层 */}
             <svg className="connection-layer">
@@ -439,39 +510,67 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
                 >
                   <polygon points="0 0, 10 3.5, 0 7" fill="#30D158" />
                 </marker>
+                {/* 发光效果 */}
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
               </defs>
               {connections.map((conn) => {
                 const source = devices.find((d) => d.id === conn.source)
                 const dest = devices.find((d) => d.id === conn.destination)
                 if (!source || !dest) return null
                 return (
-                  <line
-                    key={conn.id}
-                    x1={source.x + 24}
-                    y1={source.y + 24}
-                    x2={dest.x + 24}
-                    y2={dest.y + 24}
-                    stroke={conn.status === 'active' ? '#30D158' : '#FF3B30'}
-                    strokeWidth={3}
-                    strokeDasharray={conn.status === 'active' ? 'none' : '5,5'}
-                    markerEnd="url(#arrowhead)"
-                    className="connection-path"
-                  />
+                  <g key={conn.id}>
+                    {/* 外发光层 */}
+                    <line
+                      x1={source.x + 24}
+                      y1={source.y + 24}
+                      x2={dest.x + 24}
+                      y2={dest.y + 24}
+                      stroke={conn.status === 'active' ? '#30D158' : '#FF3B30'}
+                      strokeWidth={6}
+                      strokeDasharray={conn.status === 'active' ? 'none' : '5,5'}
+                      opacity={0.3}
+                      filter="url(#glow)"
+                    />
+                    {/* 内层实线 */}
+                    <line
+                      x1={source.x + 24}
+                      y1={source.y + 24}
+                      x2={dest.x + 24}
+                      y2={dest.y + 24}
+                      stroke={conn.status === 'active' ? '#30D158' : '#FF3B30'}
+                      strokeWidth={2}
+                      strokeDasharray={conn.status === 'active' ? 'none' : '5,5'}
+                      markerEnd="url(#arrowhead)"
+                      className="connection-path"
+                    />
+                  </g>
                 )
               })}
               {/* 正在连线时的临时线 */}
-              {linkingDevice && (
-                <line
-                  x1={devices.find((d) => d.id === linkingDevice)?.x + 24 || 0}
-                  y1={devices.find((d) => d.id === linkingDevice)?.y + 24 || 0}
-                  x2={devices.find((d) => d.id === linkingDevice)?.x + 24 || 0}
-                  y2={devices.find((d) => d.id === linkingDevice)?.y + 24 || 0}
-                  stroke="#007AFF"
-                  strokeWidth={2}
-                  strokeDasharray="5,5"
-                  className="linking-preview"
-                />
-              )}
+              {linkingDevice && (() => {
+                const linkingDev = devices.find((d) => d.id === linkingDevice)
+                const devX = linkingDev?.x ?? 0
+                const devY = linkingDev?.y ?? 0
+                return (
+                  <line
+                    x1={devX + 24}
+                    y1={devY + 24}
+                    x2={devX + 24}
+                    y2={devY + 24}
+                    stroke="#007AFF"
+                    strokeWidth={3}
+                    strokeDasharray="5,5"
+                    className="linking-preview"
+                    filter="url(#glow)"
+                  />
+                )
+              })()}
             </svg>
 
             {/* 设备层 */}
@@ -479,40 +578,47 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
               const DeviceConfig = DEVICE_CONFIG[device.type]
               const isLinking = linkingDevice === device.id
               const isSelected = selectedDevice === device.id
+              const isDragging = draggingDevice === device.id
 
               return (
                 <div
                   key={device.id}
-                  className={`device-node ${isSelected ? 'selected' : ''} ${isLinking ? 'linking' : ''}`}
+                  className={`device-node lab-device ${isSelected ? 'selected' : ''} ${isLinking ? 'linking' : ''} ${isDragging ? 'dragging' : ''}`}
                   style={{
                     left: device.x,
                     top: device.y,
                     '--device-color': DeviceConfig.color,
+                    '--port-color': DeviceConfig.portColor,
                   } as React.CSSProperties}
                   onMouseDown={(e) => handleDeviceMouseDown(device.id, e)}
                   onClick={(e) => handleDeviceClick(e, device.id)}
-                  onMouseUp={() => {
-                    // 重置拖拽标志
-                    if (dragState.current.deviceId === device.id) {
-                      setTimeout(() => {
-                        dragState.current.isDragging = false
-                      }, 50)
-                    }
-                  }}
                 >
+                  {/* 连接端口 - 实验室风格 */}
+                  <div className="lab-ports">
+                    <div className="port port-north"></div>
+                    <div className="port port-east"></div>
+                    <div className="port port-south"></div>
+                    <div className="port port-west"></div>
+                  </div>
+
                   {/* 设备主体 */}
-                  <div className="device-icon" style={{ background: DeviceConfig.color }}>
+                  <div className="device-icon lab-device-icon" style={{ background: `linear-gradient(135deg, ${DeviceConfig.color}, ${DeviceConfig.color}dd)` }}>
                     <DeviceConfig.icon />
+                    {/* 设备光晕 */}
+                    <div className="lab-device-glow"></div>
                   </div>
                   <div className="device-info">
                     <div className="device-name">{device.config.name}</div>
                     {device.config.ip && <div className="device-ip">{device.config.ip}</div>}
                   </div>
 
+                  {/* 状态指示器 */}
+                  <div className="lab-status-indicator"></div>
+
                   {/* 连线按钮 - 选中时显示 */}
                   {isSelected && !linkingDevice && (
                     <button
-                      className="device-link-btn"
+                      className="device-link-btn lab-link-btn"
                       onClick={(e) => handleStartLinking(device.id, e)}
                       title="连接到其他设备"
                     >
@@ -546,7 +652,7 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
               return (
                 <div
                   key={packet.id}
-                  className="packet-animation"
+                  className="packet-animation lab-packet"
                   style={{
                     left: currentX,
                     top: currentY,
@@ -555,6 +661,8 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
                 >
                   <div className="packet-body"></div>
                   <div className="packet-label">{packet.data.type || packet.protocol.toUpperCase()}</div>
+                  {/* 数据包尾迹 */}
+                  <div className="packet-trail"></div>
                 </div>
               )
             })}
@@ -562,7 +670,7 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
         </div>
 
         {/* 右侧配置面板 */}
-        <div className="config-panel glass">
+        <div className="config-panel lab-glass">
           <Title level={5}>
             <SettingOutlined /> 实验配置
           </Title>
@@ -662,7 +770,7 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
       </div>
 
       {/* 底部状态栏 */}
-      <div className="canvas-status">
+      <div className="canvas-status lab-status">
         <span>设备：{devices.length}</span>
         <span>连接：{connections.length}</span>
         <span>数据包：{packets.length}</span>
