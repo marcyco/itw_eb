@@ -156,16 +156,15 @@
 /* ================================
    Experiment Canvas - 实验室风格
    ================================ */
-.experiment-page {
+.experiment-page-wrapper {
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: flex;
-  flex-direction: column;
+  background: transparent;
 }
 
 .experiment-canvas {
-  flex: 1;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
@@ -183,15 +182,15 @@
 /* 画布工具栏 - 左上角浮动 */
 .canvas-toolbar {
   position: absolute;
-  top: 16px;
+  top: 70px;
   left: 16px;
   z-index: 100;
   display: flex;
   gap: 8px;
   padding: 8px;
-  background: linear-gradient(135deg, rgba(22, 22, 29, 0.9) 0%, rgba(13, 13, 20, 0.95) 100%);
+  background: linear-gradient(135deg, rgba(22, 22, 29, 0.95) 0%, rgba(13, 13, 20, 0.98) 100%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 122, 255, 0.2);
+  border: 1px solid rgba(0, 122, 255, 0.25);
   border-radius: var(--macos-radius-lg);
   box-shadow:
     0 4px 24px rgba(0, 0, 0, 0.4),

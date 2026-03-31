@@ -13,7 +13,9 @@ import {
   DeleteOutlined,
   SettingOutlined,
   UndoOutlined,
+  ArrowLeftOutlined,
 } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 import './index.css'
 
 const { Title } = Typography
@@ -83,6 +85,7 @@ const generatePorts = (type: DeviceType, deviceId: string): Port[] => {
 }
 
 export default function FreeLabPage() {
+  const navigate = useNavigate()
   const canvasRef = useRef<HTMLDivElement>(null)
   const [devices, setDevices] = useState<Device[]>([])
   const [connections, setConnections] = useState<Connection[]>([])
@@ -435,10 +438,18 @@ export default function FreeLabPage() {
   const selectedDeviceInfo = devices.find((d) => d.id === selectedDevice)
 
   return (
-    <div className="freelab-page">
+    <div className="freelab-page-wrapper">
       {/* 顶部工具栏 */}
       <div className="freelab-toolbar">
         <Space size="small">
+          <Button
+            className="toolbar-btn back-btn"
+            onClick={() => navigate('/')}
+            icon={<ArrowLeftOutlined />}
+            size="small"
+          >
+            返回
+          </Button>
           <Button
             className="toolbar-btn primary"
             onClick={() => handleAddDevice('host')}

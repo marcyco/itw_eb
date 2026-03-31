@@ -3,7 +3,6 @@ import { Typography, Button } from 'antd'
 import { LeftOutlined, RightOutlined, ExperimentOutlined } from '@ant-design/icons'
 import KnowledgeCard from './KnowledgeCard'
 import ExperimentCanvas from './ExperimentCanvas'
-import OSIPanel from '@/components/OSIPanel'
 import './index.css'
 
 const { Title } = Typography
@@ -46,13 +45,12 @@ export default function ProtocolLearningPage({
 
   if (showExperiment) {
     return (
-      <div className="experiment-page">
+      <div className="experiment-page-wrapper">
         <ExperimentCanvas
           protocol={protocol}
           config={experimentConfig}
           onBack={() => setShowExperiment(false)}
         />
-        <OSIPanel />
       </div>
     )
   }
