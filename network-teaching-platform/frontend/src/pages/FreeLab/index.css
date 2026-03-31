@@ -16,14 +16,29 @@
   top: 16px;
   left: 16px;
   z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   padding: 8px;
-  background: linear-gradient(135deg, rgba(22, 22, 29, 0.9) 0%, rgba(13, 13, 20, 0.95) 100%);
+  background: linear-gradient(135deg, rgba(22, 22, 29, 0.95) 0%, rgba(13, 13, 20, 0.98) 100%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 122, 255, 0.2);
+  border: 1px solid rgba(0, 122, 255, 0.25);
   border-radius: var(--macos-radius-lg);
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 4px 24px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.linking-hint {
+  padding: 4px 8px;
+  background: rgba(0, 122, 255, 0.15);
+  border-radius: 6px;
+  border: 1px solid rgba(0, 122, 255, 0.3);
+}
+
+.hint-text {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .freelab-content {
@@ -31,7 +46,7 @@
   display: grid;
   grid-template-columns: 200px 1fr 280px;
   gap: 16px;
-  padding: 60px 16px 16px;
+  padding: 80px 16px 16px;
   min-height: 100vh;
 }
 
@@ -54,45 +69,48 @@
   border-radius: var(--macos-radius-xl);
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, rgba(22, 22, 29, 0.7) 0%, rgba(13, 13, 20, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(22, 22, 29, 0.8) 0%, rgba(13, 13, 20, 0.9) 100%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 122, 255, 0.1);
+  border: 1px solid rgba(0, 122, 255, 0.15);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 8px 32px rgba(0, 0, 0, 0.3);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .device-library h5 {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--macos-text-secondary);
   margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .library-tips {
   margin-top: auto;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(0, 122, 255, 0.15);
 }
 
 .library-tips p {
   font-size: 11px;
   color: var(--macos-text-tertiary);
-  margin: 4px 0;
-  line-height: 1.4;
+  margin: 6px 0;
+  line-height: 1.5;
 }
 
 .lab-device-btn {
-  background: linear-gradient(135deg, rgba(0, 122, 255, 0.15) 0%, rgba(0, 122, 255, 0.05) 100%) !important;
-  border: 1px solid rgba(0, 122, 255, 0.2) !important;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.18) 0%, rgba(0, 122, 255, 0.08) 100%) !important;
+  border: 1px solid rgba(0, 122, 255, 0.25) !important;
   color: #fff !important;
+  font-size: 12px !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .lab-device-btn:hover {
-  background: linear-gradient(135deg, rgba(0, 122, 255, 0.25) 0%, rgba(0, 122, 255, 0.1) 100%) !important;
-  border-color: rgba(0, 122, 255, 0.4) !important;
-  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.2);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.3) 0%, rgba(0, 122, 255, 0.15) 100%) !important;
+  border-color: rgba(0, 122, 255, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3);
+  transform: translateY(-2px);
 }
 
 /* Canvas Area */
@@ -100,12 +118,12 @@
   border-radius: var(--macos-radius-xl);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(22, 22, 29, 0.7) 0%, rgba(13, 13, 20, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(22, 22, 29, 0.75) 0%, rgba(13, 13, 20, 0.85) 100%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 122, 255, 0.1);
+  border: 1px solid rgba(0, 122, 255, 0.15);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 8px 32px rgba(0, 0, 0, 0.3);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.4);
   cursor: crosshair;
 }
 
@@ -118,16 +136,20 @@
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(0deg,
+    repeating-linear-gradient(
+      0deg,
       transparent,
       transparent 49px,
-      rgba(0, 122, 255, 0.02) 49px,
-      rgba(0, 122, 255, 0.02) 50px),
-    repeating-linear-gradient(90deg,
+      rgba(0, 122, 255, 0.03) 49px,
+      rgba(0, 122, 255, 0.03) 50px
+    ),
+    repeating-linear-gradient(
+      90deg,
       transparent,
       transparent 49px,
-      rgba(0, 122, 255, 0.02) 49px,
-      rgba(0, 122, 255, 0.02) 50px);
+      rgba(0, 122, 255, 0.03) 49px,
+      rgba(0, 122, 255, 0.03) 50px
+    );
   pointer-events: none;
   z-index: 1;
 }
@@ -143,12 +165,13 @@
 
 .canvas-placeholder p {
   margin-top: 16px;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .canvas-placeholder .sub {
-  font-size: 14px;
-  opacity: 0.6;
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 8px;
 }
 
 /* 动态网格覆盖层 */
@@ -157,8 +180,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0, 122, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 122, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(0, 122, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 122, 255, 0.08) 1px, transparent 1px);
   background-size: 50px 50px;
   animation: gridPulse 4s ease-in-out infinite;
   pointer-events: none;
@@ -166,15 +189,8 @@
 }
 
 @keyframes gridPulse {
-
-  0%,
-  100% {
-    opacity: 0.5;
-  }
-
-  50% {
-    opacity: 0.8;
-  }
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
 }
 
 .connection-layer {
@@ -188,18 +204,18 @@
 
 .connection-path {
   transition: stroke-width 0.2s ease;
-  filter: drop-shadow(0 0 4px rgba(48, 209, 88, 0.5));
+  filter: drop-shadow(0 0 6px rgba(48, 209, 88, 0.7));
 }
 
 .linking-preview {
-  stroke-dasharray: 5, 5;
-  animation: dashMove 1s linear infinite;
-  filter: drop-shadow(0 0 4px #007AFF);
+  stroke-dasharray: 6, 4;
+  animation: dashMove 0.8s linear infinite;
+  filter: drop-shadow(0 0 6px #007AFF);
 }
 
 @keyframes dashMove {
   to {
-    stroke-dashoffset: -10;
+    stroke-dashoffset: -20;
   }
 }
 
@@ -209,21 +225,23 @@
   border-radius: var(--macos-radius-xl);
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, rgba(22, 22, 29, 0.7) 0%, rgba(13, 13, 20, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(22, 22, 29, 0.8) 0%, rgba(13, 13, 20, 0.9) 100%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 122, 255, 0.1);
+  border: 1px solid rgba(0, 122, 255, 0.15);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 8px 32px rgba(0, 0, 0, 0.3);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .config-panel h5 {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--macos-text-secondary);
   margin: 0 0 16px 0;
   display: flex;
   align-items: center;
   gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .device-config {
@@ -233,31 +251,111 @@
   flex: 1;
 }
 
+.config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 122, 255, 0.2);
+}
+
+.device-type-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #007AFF, #00C6FF);
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.device-id {
+  font-size: 10px;
+  color: var(--macos-text-tertiary);
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
 .config-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .config-item label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--macos-text-secondary);
+  font-weight: 500;
 }
 
 .config-item input[type="text"] {
-  padding: 8px 12px;
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 122, 255, 0.2);
   border-radius: var(--macos-radius-sm);
   color: var(--macos-text-primary);
   font-size: 13px;
+  font-family: 'SF Mono', 'Monaco', monospace;
   transition: all var(--macos-transition-fast);
 }
 
 .config-item input[type="text"]:focus {
   outline: none;
-  border-color: var(--macos-blue);
+  border-color: rgba(0, 122, 255, 0.5);
   background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+}
+
+.port-status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.port-status label {
+  font-size: 11px;
+  color: var(--macos-text-secondary);
+  font-weight: 500;
+}
+
+.port-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.port-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-sm);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.port-item.connected {
+  background: rgba(48, 209, 88, 0.1);
+  border-color: rgba(48, 209, 88, 0.3);
+}
+
+.port-name {
+  font-size: 12px;
+  color: var(--macos-text-secondary);
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.port-status {
+  font-size: 14px;
+}
+
+.port-status.active {
+  color: #30D158;
+}
+
+.port-status.inactive {
+  color: var(--macos-text-tertiary);
 }
 
 .panel-actions {
@@ -283,288 +381,180 @@
 }
 
 .config-placeholder .sub {
-  font-size: 13px;
-  opacity: 0.6;
+  font-size: 12px;
+  opacity: 0.7;
   margin-top: 8px;
 }
 
 .zoom-control {
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(0, 122, 255, 0.15);
   margin-top: 16px;
 }
 
 .zoom-control label {
   display: block;
   margin-bottom: 8px;
+  font-size: 11px;
+  color: var(--macos-text-tertiary);
+}
+
+/* 统计面板 */
+.stats-panel {
+  display: flex;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 122, 255, 0.15);
+  margin-top: 16px;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--macos-radius-md);
+  border: 1px solid rgba(0, 122, 255, 0.1);
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--macos-text-tertiary);
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'SF Mono', 'Monaco', monospace;
 }
 
 /* ================================
-   Device Node - 实验室风格
+   Device Node - 增强版
    ================================ */
 .device-node {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   cursor: grab;
   padding: 12px;
-  border-radius: 16px;
+  border-radius: 20px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   z-index: 10;
 }
 
 .device-node:hover {
-  background: rgba(0, 122, 255, 0.08);
-  transform: scale(1.08);
+  background: rgba(0, 122, 255, 0.1);
+  transform: scale(1.05);
 }
 
 .device-node.selected {
-  background: rgba(0, 122, 255, 0.15);
+  background: rgba(0, 122, 255, 0.18);
   box-shadow:
-    0 0 0 2px rgba(0, 122, 255, 0.5),
-    0 0 30px rgba(0, 122, 255, 0.3);
+    0 0 0 2px rgba(0, 122, 255, 0.6),
+    0 0 40px rgba(0, 122, 255, 0.4);
 }
 
 .device-node.dragging {
   cursor: grabbing;
-  transform: scale(1.12);
+  transform: scale(1.1);
   z-index: 100;
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.4),
-    0 0 40px rgba(0, 122, 255, 0.4);
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(0, 122, 255, 0.5);
 }
 
-.device-node.linking {
-  background: rgba(0, 122, 255, 0.15);
-  box-shadow:
-    0 0 0 2px rgba(0, 122, 255, 0.5),
-    0 0 30px rgba(0, 122, 255, 0.3);
-  animation: labLinkingPulse 1s ease-in-out infinite;
-}
-
-@keyframes labLinkingPulse {
-
-  0%,
-  100% {
-    box-shadow:
-      0 0 0 2px rgba(0, 122, 255, 0.5),
-      0 0 20px rgba(0, 122, 255, 0.2);
-  }
-
-  50% {
-    box-shadow:
-      0 0 0 6px rgba(0, 122, 255, 0.2),
-      0 0 40px rgba(0, 122, 255, 0.4);
-  }
-}
-
-/* 连接端口 - 实验室风格 */
-.lab-ports {
-  position: absolute;
-  inset: -8px;
-  pointer-events: none;
-}
-
-.port {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--port-color);
-  box-shadow:
-    0 0 8px var(--port-color),
-    0 0 16px var(--port-color);
-  opacity: 0;
-  transition: all 0.3s ease;
-  animation: portPulse 2s ease-in-out infinite;
-}
-
-.device-node:hover .port,
-.device-node.selected .port {
-  opacity: 1;
-}
-
-.port-north {
-  top: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.port-east {
-  right: -4px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.port-south {
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.port-west {
-  left: -4px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-@keyframes portPulse {
-
-  0%,
-  100% {
-    box-shadow:
-      0 0 8px var(--port-color),
-      0 0 16px var(--port-color);
-  }
-
-  50% {
-    box-shadow:
-      0 0 12px var(--port-color),
-      0 0 24px var(--port-color),
-      0 0 36px var(--port-color);
-  }
-}
-
+/* 设备图标 */
 .device-icon {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 26px;
   color: white;
   box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.4),
-    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    0 6px 20px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.25),
     inset 0 -2px 4px rgba(0, 0, 0, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   position: relative;
 }
 
-/* 设备光晕效果 */
+.lab-device-icon {
+  position: relative;
+}
+
 .lab-device-glow {
   position: absolute;
-  inset: -4px;
+  inset: -6px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 0%, transparent 70%);
   animation: glowRotate 3s linear infinite;
   pointer-events: none;
 }
 
 @keyframes glowRotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .device-info {
   text-align: center;
   pointer-events: none;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .device-name {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: #fff;
-  text-shadow: 0 0 10px rgba(0, 122, 255, 0.5);
+  text-shadow: 0 0 12px rgba(0, 122, 255, 0.6);
   white-space: nowrap;
 }
 
 .device-ip {
-  font-size: 9px;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.75);
   font-family: 'SF Mono', 'Monaco', monospace;
+  margin-top: 2px;
 }
 
 /* 状态指示器 */
 .lab-status-indicator {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 8px;
-  height: 8px;
+  top: 6px;
+  right: 6px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #30D158;
-  box-shadow: 0 0 8px #30D158;
+  box-shadow: 0 0 10px #30D158;
   animation: statusBlink 2s ease-in-out infinite;
 }
 
 @keyframes statusBlink {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-/* Link Button */
-.device-link-btn {
+/* 删除按钮 */
+.device-delete-btn {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid var(--macos-blue);
-  background: linear-gradient(135deg, #007AFF, #00C6FF);
-  color: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.4);
-  transition: all 0.2s ease;
-  z-index: 20;
-  animation: labLinkBtnPop 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes labLinkBtnPop {
-  0% {
-    transform: scale(0) rotate(-180deg);
-    opacity: 0;
-  }
-
-  60% {
-    transform: scale(1.3) rotate(10deg);
-  }
-
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
-}
-
-.device-link-btn:hover {
-  transform: scale(1.25) rotate(90deg);
-  box-shadow:
-    0 6px 24px rgba(0, 122, 255, 0.5),
-    0 0 16px rgba(0, 122, 255, 0.8);
-}
-
-/* Cancel Link Button */
-.device-cancel-link-btn {
-  position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -10px;
+  left: -10px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -575,13 +565,109 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.4);
+  font-size: 13px;
+  box-shadow: 0 2px 10px rgba(255, 59, 48, 0.5);
   transition: all 0.2s ease;
   z-index: 20;
 }
 
-.device-cancel-link-btn:hover {
-  transform: scale(1.15);
-  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.6);
+.device-delete-btn:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.7);
+}
+
+/* ================================
+   Port System - 端口系统
+   ================================ */
+.port-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.port-node {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  cursor: crosshair;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+}
+
+.port-node:hover {
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+.port-indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a4a4a, #2a2a2a);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.port-node:hover .port-indicator {
+  background: linear-gradient(135deg, #007AFF, #00C6FF);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 0 12px rgba(0, 122, 255, 0.6),
+    0 0 24px rgba(0, 122, 255, 0.3);
+}
+
+.port-node.connected .port-indicator {
+  background: linear-gradient(135deg, #30D158, #34C759);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 0 10px rgba(48, 209, 88, 0.5),
+    0 0 20px rgba(48, 209, 88, 0.3);
+}
+
+.port-node.source .port-indicator {
+  background: linear-gradient(135deg, #FF9500, #FFAD33);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 0 15px rgba(255, 149, 0, 0.6),
+    0 0 30px rgba(255, 149, 0, 0.3);
+  animation: portPulse 1s ease-in-out infinite;
+}
+
+@keyframes portPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 15px rgba(255, 149, 0, 0.6),
+      0 0 30px rgba(255, 149, 0, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 25px rgba(255, 149, 0, 0.8),
+      0 0 50px rgba(255, 149, 0, 0.5);
+  }
+}
+
+.port-label {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'SF Mono', 'Monaco', monospace;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 6px;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.port-node:hover .port-label,
+.port-node.connected .port-label {
+  opacity: 1;
 }

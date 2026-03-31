@@ -11,6 +11,7 @@ import {
   GithubOutlined,
   MoonOutlined,
   SunOutlined,
+  CustomerServiceOutlined,
 } from '@ant-design/icons'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './index.css'
@@ -83,6 +84,13 @@ export default function Navigation({ transparent = false, showMenu = true }: Nav
 
         {/* Right Actions */}
         <div className="navigation-actions">
+          <button
+            className="action-btn ai-btn"
+            onClick={() => navigate('/ai-assistant')}
+            title="AI 智能助手"
+          >
+            <CustomerServiceOutlined />
+          </button>
           <button
             className="action-btn"
             onClick={() => setIsDark(!isDark)}

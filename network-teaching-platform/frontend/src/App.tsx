@@ -12,6 +12,7 @@ import HTTPPage from './pages/HTTP'
 import RIPPage from './pages/RIP'
 import FTPPage from './pages/FTP'
 import FreeLabPage from './pages/FreeLab'
+import AiAssistantPage from './pages/AiAssistant'
 import './styles/index.css'
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
               <Route path="/rip" element={<RIPPage />} />
               <Route path="/ftp" element={<FTPPage />} />
               <Route path="/freelab" element={<FreeLabPage />} />
+              <Route path="/ai-assistant" element={<AiAssistantPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
