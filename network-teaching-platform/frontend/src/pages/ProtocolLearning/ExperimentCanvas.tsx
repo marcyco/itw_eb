@@ -11,8 +11,6 @@ import {
   ReloadOutlined,
   DeleteOutlined,
   SettingOutlined,
-  LinkOutlined,
-  CloseOutlined,
 } from '@ant-design/icons'
 import { CiscoIcons } from '@/components/CiscoIcons'
 import './index.css'
@@ -20,6 +18,15 @@ import './index.css'
 const { Title } = Typography
 
 export type DeviceType = 'host' | 'router' | 'switch' | 'cloud'
+
+export interface Port {
+  id: string
+  name: string
+  type: string
+  connected?: boolean
+  x: number
+  y: number
+}
 
 export interface Device {
   id: string
@@ -33,14 +40,15 @@ export interface Device {
     gateway?: string
     mac?: string
   }
+  ports: Port[]
 }
 
 export interface Connection {
   id: string
-  source: string
-  destination: string
-  sourcePort?: string
-  destPort?: string
+  sourceDevice: string
+  destDevice: string
+  sourcePort: string
+  destPort: string
   status: 'active' | 'inactive'
 }
 
@@ -67,61 +75,119 @@ export interface ExperimentCanvasProps {
 
 // 默认拓扑配置
 const getDefaultTopology = (protocol: string): { devices: Device[]; connections: Connection[] } => {
+  // 生成带端口的设备
+  const createDevice = (type: DeviceType, id: string, x: number, y: number, name: string, ip: string): Device => ({
+    id,
+    type,
+    x,
+    y,
+    config: { name, ip, mac: `00:1A:2B:3C:4D:${Math.floor(Math.random() * 255).toString(16).toUpperCase().padStart(2, '0')}` },
+    ports: generatePorts(type, id),
+  })
+
+  const createConnection = (source: string, destination: string, sourcePort: string, destPort: string): Connection => ({
+    id: `conn-${source}-${destination}`,
+    sourceDevice: source,
+    destDevice: destination,
+    sourcePort,
+    destPort,
+    status: 'active',
+  })
+
   switch (protocol) {
     case 'tcp':
       return {
         devices: [
-          { id: 'client1', type: 'host', x: 100, y: 200, config: { name: '客户端', ip: '192.168.1.10', mac: '00:1A:2B:3C:4D:5E' } },
-          { id: 'server1', type: 'host', x: 600, y: 200, config: { name: '服务器', ip: '192.168.1.1', mac: '00:1A:2B:3C:4D:5F' } },
+          createDevice('host', 'client1', 100, 200, '客户端', '192.168.1.10'),
+          createDevice('host', 'server1', 600, 200, '服务器', '192.168.1.1'),
         ],
         connections: [
-          { id: 'conn1', source: 'client1', destination: 'server1', status: 'active' },
+          createConnection('client1', 'server1', 'eth0', 'eth0'),
         ],
       }
     case 'udp':
       return {
         devices: [
-          { id: 'hostA', type: 'host', x: 100, y: 200, config: { name: '主机 A', ip: '192.168.1.10' } },
-          { id: 'hostB', type: 'host', x: 400, y: 100, config: { name: '主机 B', ip: '192.168.1.20' } },
-          { id: 'hostC', type: 'host', x: 400, y: 300, config: { name: '主机 C', ip: '192.168.1.30' } },
+          createDevice('host', 'hostA', 100, 200, '主机 A', '192.168.1.10'),
+          createDevice('host', 'hostB', 400, 100, '主机 B', '192.168.1.20'),
+          createDevice('host', 'hostC', 400, 300, '主机 C', '192.168.1.30'),
         ],
         connections: [
-          { id: 'conn1', source: 'hostA', destination: 'hostB', status: 'active' },
-          { id: 'conn2', source: 'hostA', destination: 'hostC', status: 'active' },
+          createConnection('hostA', 'hostB', 'eth0', 'eth0'),
+          createConnection('hostA', 'hostC', 'eth1', 'eth0'),
         ],
       }
     case 'rip':
       return {
         devices: [
-          { id: 'router1', type: 'router', x: 100, y: 200, config: { name: 'R1', ip: '192.168.1.1' } },
-          { id: 'router2', type: 'router', x: 400, y: 100, config: { name: 'R2', ip: '192.168.2.1' } },
-          { id: 'router3', type: 'router', x: 400, y: 300, config: { name: 'R3', ip: '192.168.3.1' } },
+          createDevice('router', 'router1', 100, 200, 'R1', '192.168.1.1'),
+          createDevice('router', 'router2', 400, 100, 'R2', '192.168.2.1'),
+          createDevice('router', 'router3', 400, 300, 'R3', '192.168.3.1'),
         ],
         connections: [
-          { id: 'conn1', source: 'router1', destination: 'router2', status: 'active' },
-          { id: 'conn2', source: 'router1', destination: 'router3', status: 'active' },
-          { id: 'conn3', source: 'router2', destination: 'router3', status: 'active' },
+          createConnection('router1', 'router2', 's0/0/0', 's0/0/0'),
+          createConnection('router1', 'router3', 's0/0/1', 's0/0/0'),
+          createConnection('router2', 'router3', 's0/0/1', 's0/0/1'),
+        ],
+      }
+    case 'http':
+      return {
+        devices: [
+          createDevice('host', 'client1', 100, 200, '客户端', '192.168.1.10'),
+          createDevice('host', 'server1', 600, 200, 'Web 服务器', '192.168.1.80'),
+        ],
+        connections: [
+          createConnection('client1', 'server1', 'eth0', 'eth0'),
+        ],
+      }
+    case 'ftp':
+      return {
+        devices: [
+          createDevice('host', 'client1', 100, 200, '客户端', '192.168.1.10'),
+          createDevice('host', 'server1', 600, 200, 'FTP 服务器', '192.168.1.21'),
+        ],
+        connections: [
+          createConnection('client1', 'server1', 'eth0', 'eth0'),
         ],
       }
     default:
       return {
         devices: [
-          { id: 'host1', type: 'host', x: 150, y: 200, config: { name: '主机 1', ip: '192.168.1.10' } },
-          { id: 'host2', type: 'host', x: 550, y: 200, config: { name: '主机 2', ip: '192.168.1.20' } },
+          createDevice('host', 'host1', 150, 200, '主机 1', '192.168.1.10'),
+          createDevice('host', 'host2', 550, 200, '主机 2', '192.168.1.20'),
         ],
         connections: [
-          { id: 'conn1', source: 'host1', destination: 'host2', status: 'active' },
+          createConnection('host1', 'host2', 'eth0', 'eth0'),
         ],
       }
   }
 }
 
+// 生成端口
+const generatePorts = (type: DeviceType, deviceId: string): Port[] => {
+  const config = DEVICE_CONFIG[type]
+  const positions: Record<number, { x: number; y: number }> = {
+    0: { x: 30, y: -8 },   // top
+    1: { x: 68, y: 30 },   // right
+    2: { x: 30, y: 68 },   // bottom
+    3: { x: -8, y: 30 },   // left
+  }
+
+  return config.portType.map((portType, index) => ({
+    id: `${deviceId}-port-${portType}`,
+    name: portType,
+    type: portType,
+    connected: false,
+    ...positions[index % 4],
+  }))
+}
+
 // 设备类型配置
-const DEVICE_CONFIG: Record<DeviceType, { icon: any; renderIcon?: any; color: string; label: string; portColor: string }> = {
-  host: { icon: CiscoIcons.host, renderIcon: CiscoIcons.host, color: '#007AFF', label: '主机', portColor: '#00D4FF' },
-  router: { icon: CiscoIcons.router, renderIcon: CiscoIcons.router, color: '#FF9500', label: '路由器', portColor: '#FFD60A' },
-  switch: { icon: CiscoIcons.switch, renderIcon: CiscoIcons.switch, color: '#30D158', label: '交换机', portColor: '#32D74B' },
-  cloud: { icon: CiscoIcons.cloud, renderIcon: CiscoIcons.cloud, color: '#BF5AF2', label: '云', portColor: '#E0A6FF' },
+const DEVICE_CONFIG: Record<DeviceType, { icon: any; renderIcon?: any; color: string; label: string; portColor: string; portType: string[] }> = {
+  host: { icon: CiscoIcons.host, renderIcon: CiscoIcons.host, color: '#007AFF', label: '主机', portColor: '#00D4FF', portType: ['eth0', 'eth1'] },
+  router: { icon: CiscoIcons.router, renderIcon: CiscoIcons.router, color: '#FF9500', label: '路由器', portColor: '#FFD60A', portType: ['eth0', 'eth1', 's0/0/0', 's0/0/1'] },
+  switch: { icon: CiscoIcons.switch, renderIcon: CiscoIcons.switch, color: '#30D158', label: '交换机', portColor: '#32D74B', portType: ['eth0', 'eth1', 'eth2', 'eth3'] },
+  cloud: { icon: CiscoIcons.cloud, renderIcon: CiscoIcons.cloud, color: '#BF5AF2', label: '云', portColor: '#E0A6FF', portType: ['eth0', 'eth1'] },
 }
 
 export default function ExperimentCanvas({ protocol, config = {}, onBack }: ExperimentCanvasProps) {
@@ -130,7 +196,6 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
   const [connections, setConnections] = useState<Connection[]>(() => getDefaultTopology(protocol).connections)
   const [packets, setPackets] = useState<Packet[]>([])
   const [selectedDevice, setSelectedDevice] = useState<string | null>(null)
-  const [linkingDevice, setLinkingDevice] = useState<string | null>(null)
   const [isRunning, setIsRunning] = useState(false)
   const [windowSize, setWindowSize] = useState(config.windowSize || 3)
   const [simulateLoss, setSimulateLoss] = useState(config.simulateLoss || false)
@@ -219,14 +284,14 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
     setDevices(topology.devices)
     setConnections(topology.connections)
     setSelectedDevice(null)
-    setLinkingDevice(null)
     setDraggingDevice(null)
   }, [protocol])
 
   // 添加设备
   const handleAddDevice = useCallback((type: DeviceType) => {
+    const deviceId = `${type}-${Date.now()}`
     const newDevice: Device = {
-      id: `${type}-${Date.now()}`,
+      id: deviceId,
       type,
       x: 300 + Math.random() * 200,
       y: 200 + Math.random() * 100,
@@ -235,6 +300,7 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
         ip: `192.168.1.${10 + devices.length}`,
         mac: `00:1A:2B:3C:4D:${(50 + devices.length).toString(16).toUpperCase()}`,
       },
+      ports: generatePorts(type, deviceId),
     }
     setDevices((prev) => [...prev, newDevice])
   }, [devices])
@@ -333,58 +399,14 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
     }
   }, [zoom])
 
-  // 开始连线
-  const handleStartLinking = useCallback((deviceId: string, e: React.MouseEvent) => {
-    e.stopPropagation()
-    setLinkingDevice(deviceId)
-    message.info('点击另一个设备完成连接', 2)
-  }, [])
-
-  // 完成连线
-  const handleCompleteLink = useCallback((targetDeviceId: string) => {
-    if (!linkingDevice || linkingDevice === targetDeviceId) return
-
-    // 检查是否已存在连接
-    const exists = connections.some(
-      (c) =>
-        (c.source === linkingDevice && c.destination === targetDeviceId) ||
-        (c.source === targetDeviceId && c.destination === linkingDevice)
-    )
-
-    if (exists) {
-      message.warning('这两个设备已经连接过了')
-      setLinkingDevice(null)
-      return
-    }
-
-    setConnections((prev) => [
-      ...prev,
-      {
-        id: `conn-${Date.now()}`,
-        source: linkingDevice,
-        destination: targetDeviceId,
-        status: 'active',
-      },
-    ])
-    setLinkingDevice(null)
-    message.success('连接已创建')
-  }, [linkingDevice, connections])
-
-  // 取消连线模式
-  const handleCancelLinking = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-    setLinkingDevice(null)
-  }, [])
-
   // 删除设备
   const handleDeleteDevice = useCallback(() => {
     if (!selectedDevice) return
     setDevices((prev) => prev.filter((d) => d.id !== selectedDevice))
     setConnections((prev) =>
-      prev.filter((c) => c.source !== selectedDevice && c.destination !== selectedDevice)
+      prev.filter((c) => c.sourceDevice !== selectedDevice && c.destDevice !== selectedDevice)
     )
     setSelectedDevice(null)
-    setLinkingDevice(null)
     message.success('设备已删除')
   }, [selectedDevice])
 
@@ -402,26 +424,18 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
   const handleDeviceClick = useCallback((e: React.MouseEvent, deviceId: string) => {
     e.stopPropagation()
 
-    // 如果正在连线中
-    if (linkingDevice && linkingDevice !== deviceId) {
-      handleCompleteLink(deviceId)
-      return
-    }
-
-    // 如果不是拖拽
+    // 选择设备
     if (!dragState.current.isDragging && !draggingDevice) {
       setSelectedDevice(deviceId === selectedDevice ? null : deviceId)
     }
-  }, [linkingDevice, selectedDevice, draggingDevice, handleCompleteLink])
+  }, [selectedDevice, draggingDevice])
 
   // 画布点击事件 - 取消选择
   const handleCanvasClick = useCallback(() => {
-    if (linkingDevice) {
-      setLinkingDevice(null)
-    } else if (!dragState.current.isDragging && !draggingDevice) {
+    if (!dragState.current.isDragging && !draggingDevice) {
       setSelectedDevice(null)
     }
-  }, [linkingDevice, draggingDevice])
+  }, [draggingDevice])
 
   const selectedDeviceInfo = devices.find((d) => d.id === selectedDevice)
 
@@ -517,17 +531,26 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
                 </filter>
               </defs>
               {connections.map((conn) => {
-                const source = devices.find((d) => d.id === conn.source)
-                const dest = devices.find((d) => d.id === conn.destination)
-                if (!source || !dest) return null
+                const source = devices.find((d) => d.id === conn.sourceDevice)
+                const dest = devices.find((d) => d.id === conn.destDevice)
+                const sourcePort = source?.ports.find(p => p.id === conn.sourcePort)
+                const destPort = dest?.ports.find(p => p.id === conn.destPort)
+
+                if (!source || !dest || !sourcePort || !destPort) return null
+
+                const x1 = source.x + sourcePort.x + 30
+                const y1 = source.y + sourcePort.y + 30
+                const x2 = dest.x + destPort.x + 30
+                const y2 = dest.y + destPort.y + 30
+
                 return (
                   <g key={conn.id}>
                     {/* 外发光层 */}
                     <line
-                      x1={source.x + 24}
-                      y1={source.y + 24}
-                      x2={dest.x + 24}
-                      y2={dest.y + 24}
+                      x1={x1}
+                      y1={y1}
+                      x2={x2}
+                      y2={y2}
                       stroke={conn.status === 'active' ? '#30D158' : '#FF3B30'}
                       strokeWidth={6}
                       strokeDasharray={conn.status === 'active' ? 'none' : '5,5'}
@@ -536,10 +559,10 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
                     />
                     {/* 内层实线 */}
                     <line
-                      x1={source.x + 24}
-                      y1={source.y + 24}
-                      x2={dest.x + 24}
-                      y2={dest.y + 24}
+                      x1={x1}
+                      y1={y1}
+                      x2={x2}
+                      y2={y2}
                       stroke={conn.status === 'active' ? '#30D158' : '#FF3B30'}
                       strokeWidth={2}
                       strokeDasharray={conn.status === 'active' ? 'none' : '5,5'}
@@ -549,88 +572,78 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
                   </g>
                 )
               })}
-              {/* 正在连线时的临时线 */}
-              {linkingDevice && (() => {
-                const linkingDev = devices.find((d) => d.id === linkingDevice)
-                const devX = linkingDev?.x ?? 0
-                const devY = linkingDev?.y ?? 0
-                return (
-                  <line
-                    x1={devX + 24}
-                    y1={devY + 24}
-                    x2={devX + 24}
-                    y2={devY + 24}
-                    stroke="#007AFF"
-                    strokeWidth={3}
-                    strokeDasharray="5,5"
-                    className="linking-preview"
-                    filter="url(#glow)"
-                  />
-                )
-              })()}
             </svg>
 
             {/* 设备层 */}
             {devices.map((device) => {
               const DeviceConfig = DEVICE_CONFIG[device.type]
-              const isLinking = linkingDevice === device.id
               const isSelected = selectedDevice === device.id
               const isDragging = draggingDevice === device.id
 
               return (
                 <div
                   key={device.id}
-                  className={`device-node lab-device ${isSelected ? 'selected' : ''} ${isLinking ? 'linking' : ''} ${isDragging ? 'dragging' : ''}`}
+                  className={`device-node lab-device ${isSelected ? 'selected' : ''} ${isDragging ? 'dragging' : ''}`}
                   style={{
                     left: device.x,
                     top: device.y,
                     '--device-color': DeviceConfig.color,
-                    '--port-color': DeviceConfig.portColor,
                   } as React.CSSProperties}
                   onMouseDown={(e) => handleDeviceMouseDown(device.id, e)}
                   onClick={(e) => handleDeviceClick(e, device.id)}
                 >
-                  {/* 连接端口 - 实验室风格 */}
-                  <div className="lab-ports">
-                    <div className="port port-north"></div>
-                    <div className="port port-east"></div>
-                    <div className="port port-south"></div>
-                    <div className="port port-west"></div>
-                  </div>
-
                   {/* 设备主体 - Cisco 图标 */}
                   <div className="device-icon cisco-device-icon">
                     <DeviceConfig.renderIcon className="cisco-icon-svg" />
                     {/* 设备光晕 */}
                     <div className="lab-device-glow"></div>
                   </div>
+
                   <div className="device-info">
                     <div className="device-name">{device.config.name}</div>
                     {device.config.ip && <div className="device-ip">{device.config.ip}</div>}
                   </div>
 
+                  {/* 端口层 */}
+                  <div className="port-layer">
+                    {device.ports.map((port) => {
+                      const isConnected = connections.some(
+                        c => (c.sourceDevice === device.id && c.sourcePort === port.id) ||
+                          (c.destDevice === device.id && c.destPort === port.id)
+                      )
+
+                      return (
+                        <div
+                          key={port.id}
+                          className={`port-node ${isConnected ? 'connected' : ''}`}
+                          style={{
+                            left: port.x + 30,
+                            top: port.y + 30,
+                          }}
+                        >
+                          <div className="port-indicator"></div>
+                          <Tooltip title={port.name} placement="top">
+                            <div className="port-label">{port.name}</div>
+                          </Tooltip>
+                        </div>
+                      )
+                    })}
+                  </div>
+
                   {/* 状态指示器 */}
                   <div className="lab-status-indicator"></div>
 
-                  {/* 连线按钮 - 选中时显示 */}
-                  {isSelected && !linkingDevice && (
+                  {/* 删除按钮 */}
+                  {isSelected && (
                     <button
-                      className="device-link-btn lab-link-btn"
-                      onClick={(e) => handleStartLinking(device.id, e)}
-                      title="连接到其他设备"
+                      className="device-delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setDevices(prev => prev.filter(d => d.id !== device.id))
+                      }}
+                      title="删除设备"
                     >
-                      <LinkOutlined />
-                    </button>
-                  )}
-
-                  {/* 取消连线按钮 */}
-                  {isLinking && (
-                    <button
-                      className="device-cancel-link-btn"
-                      onClick={handleCancelLinking}
-                      title="取消连线"
-                    >
-                      <CloseOutlined />
+                      <DeleteOutlined />
                     </button>
                   )}
                 </div>
@@ -737,25 +750,15 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
 
           {/* 操作按钮 */}
           <div className="panel-actions">
-            {linkingDevice ? (
-              <Button
-                danger
-                block
-                onClick={() => setLinkingDevice(null)}
-              >
-                <CloseOutlined /> 取消连线模式
-              </Button>
-            ) : (
-              <Button
-                danger
-                icon={<DeleteOutlined />}
-                onClick={handleDeleteDevice}
-                disabled={!selectedDevice}
-                block
-              >
-                删除设备
-              </Button>
-            )}
+            <Button
+              danger
+              icon={<DeleteOutlined />}
+              onClick={handleDeleteDevice}
+              disabled={!selectedDevice}
+              block
+            >
+              删除设备
+            </Button>
           </div>
 
           {/* 缩放控制 */}
@@ -772,7 +775,6 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
         <span>连接：{connections.length}</span>
         <span>数据包：{packets.length}</span>
         <Tag color={isRunning ? 'green' : 'default'}>{isRunning ? '运行中' : '已停止'}</Tag>
-        {linkingDevice && <Tag color="blue">连线中...</Tag>}
       </div>
     </div>
   )
