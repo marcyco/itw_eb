@@ -5,10 +5,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Button, Slider, Space, Typography, Tooltip, message } from 'antd'
 import {
-  DesktopOutlined,
-  ApartmentOutlined,
-  SwapOutlined,
-  CloudOutlined,
   CloseOutlined,
   DeleteOutlined,
   SettingOutlined,
@@ -16,6 +12,7 @@ import {
   ArrowLeftOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import { CiscoIcons } from '@/components/CiscoIcons'
 import './index.css'
 
 const { Title } = Typography
@@ -58,11 +55,11 @@ export interface Connection {
 }
 
 // 设备类型配置
-const DEVICE_CONFIG: Record<DeviceType, { icon: any; color: string; label: string; portCount: number; portType: PortType[] }> = {
-  host: { icon: DesktopOutlined, color: '#007AFF', label: '主机', portCount: 2, portType: ['eth0', 'eth1'] },
-  router: { icon: ApartmentOutlined, color: '#FF9500', label: '路由器', portCount: 4, portType: ['eth0', 'eth1', 's0/0/0', 's0/0/1'] },
-  switch: { icon: SwapOutlined, color: '#30D158', label: '交换机', portCount: 4, portType: ['eth0', 'eth1', 'eth2', 'eth3'] },
-  cloud: { icon: CloudOutlined, color: '#BF5AF2', label: '云', portCount: 2, portType: ['eth0', 'eth1'] },
+const DEVICE_CONFIG: Record<DeviceType, { icon: any; renderIcon?: any; color: string; label: string; portCount: number; portType: PortType[] }> = {
+  host: { icon: CiscoIcons.host, renderIcon: CiscoIcons.host, color: '#007AFF', label: '主机', portCount: 2, portType: ['eth0', 'eth1'] },
+  router: { icon: CiscoIcons.router, renderIcon: CiscoIcons.router, color: '#FF9500', label: '路由器', portCount: 4, portType: ['eth0', 'eth1', 's0/0/0', 's0/0/1'] },
+  switch: { icon: CiscoIcons.switch, renderIcon: CiscoIcons.switch, color: '#30D158', label: '交换机', portCount: 4, portType: ['eth0', 'eth1', 'eth2', 'eth3'] },
+  cloud: { icon: CiscoIcons.cloud, renderIcon: CiscoIcons.cloud, color: '#BF5AF2', label: '云', portCount: 2, portType: ['eth0', 'eth1'] },
 }
 
 // 生成端口
@@ -453,7 +450,7 @@ export default function FreeLabPage() {
           <Button
             className="toolbar-btn primary"
             onClick={() => handleAddDevice('host')}
-            icon={<DesktopOutlined />}
+            icon={<CiscoIcons.host className="device-btn-icon" />}
             size="small"
           >
             主机
@@ -461,7 +458,7 @@ export default function FreeLabPage() {
           <Button
             className="toolbar-btn primary"
             onClick={() => handleAddDevice('router')}
-            icon={<ApartmentOutlined />}
+            icon={<CiscoIcons.router className="device-btn-icon" />}
             size="small"
           >
             路由器
@@ -469,7 +466,7 @@ export default function FreeLabPage() {
           <Button
             className="toolbar-btn primary"
             onClick={() => handleAddDevice('switch')}
-            icon={<SwapOutlined />}
+            icon={<CiscoIcons.switch className="device-btn-icon" />}
             size="small"
           >
             交换机
@@ -477,7 +474,7 @@ export default function FreeLabPage() {
           <Button
             className="toolbar-btn primary"
             onClick={() => handleAddDevice('cloud')}
-            icon={<CloudOutlined />}
+            icon={<CiscoIcons.cloud className="device-btn-icon" />}
             size="small"
           >
             云
@@ -523,10 +520,11 @@ export default function FreeLabPage() {
           <Space direction="vertical" style={{ width: '100%' }} size="small">
             {(Object.keys(DEVICE_CONFIG) as DeviceType[]).map((type) => {
               const Config = DEVICE_CONFIG[type]
+              const IconComponent = Config.renderIcon
               return (
                 <Tooltip key={type} title={`添加${Config.label}`} placement="right">
                   <Button
-                    icon={<Config.icon />}
+                    icon={<IconComponent className="device-btn-icon" />}
                     onClick={() => handleAddDevice(type)}
                     block
                     size="small"
@@ -554,7 +552,7 @@ export default function FreeLabPage() {
         >
           {devices.length === 0 ? (
             <div className="canvas-placeholder">
-              <DesktopOutlined style={{ fontSize: 64, opacity: 0.3 }} />
+              <CiscoIcons.host className="placeholder-icon" />
               <p>从左侧添加设备到画布</p>
               <p className="sub">或点击顶部工具栏快速添加</p>
               <p className="sub">点击设备端口开始连线</p>
@@ -656,12 +654,9 @@ export default function FreeLabPage() {
                     onMouseDown={(e) => handleDeviceMouseDown(device.id, e)}
                     onClick={(e) => handleDeviceClick(e, device.id)}
                   >
-                    {/* 设备主体 */}
-                    <div
-                      className="device-icon lab-device-icon"
-                      style={{ background: `linear-gradient(135deg, ${DeviceConfig.color}, ${DeviceConfig.color}dd)` }}
-                    >
-                      <DeviceConfig.icon />
+                    {/* 设备主体 - Cisco 图标 */}
+                    <div className="device-icon cisco-device-icon">
+                      <DeviceConfig.renderIcon className="cisco-icon-svg" />
                       <div className="lab-device-glow"></div>
                     </div>
 

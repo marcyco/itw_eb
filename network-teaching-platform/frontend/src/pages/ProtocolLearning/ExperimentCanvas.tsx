@@ -10,14 +10,11 @@ import {
   PauseCircleOutlined,
   ReloadOutlined,
   DeleteOutlined,
-  DesktopOutlined,
-  ApartmentOutlined,
-  SwapOutlined,
-  CloudOutlined,
   SettingOutlined,
   LinkOutlined,
   CloseOutlined,
 } from '@ant-design/icons'
+import { CiscoIcons } from '@/components/CiscoIcons'
 import './index.css'
 
 const { Title } = Typography
@@ -120,11 +117,11 @@ const getDefaultTopology = (protocol: string): { devices: Device[]; connections:
 }
 
 // 设备类型配置
-const DEVICE_CONFIG: Record<DeviceType, { icon: any; color: string; label: string; portColor: string }> = {
-  host: { icon: DesktopOutlined, color: '#007AFF', label: '主机', portColor: '#00D4FF' },
-  router: { icon: ApartmentOutlined, color: '#FF9500', label: '路由器', portColor: '#FFD60A' },
-  switch: { icon: SwapOutlined, color: '#30D158', label: '交换机', portColor: '#32D74B' },
-  cloud: { icon: CloudOutlined, color: '#BF5AF2', label: '云', portColor: '#E0A6FF' },
+const DEVICE_CONFIG: Record<DeviceType, { icon: any; renderIcon?: any; color: string; label: string; portColor: string }> = {
+  host: { icon: CiscoIcons.host, renderIcon: CiscoIcons.host, color: '#007AFF', label: '主机', portColor: '#00D4FF' },
+  router: { icon: CiscoIcons.router, renderIcon: CiscoIcons.router, color: '#FF9500', label: '路由器', portColor: '#FFD60A' },
+  switch: { icon: CiscoIcons.switch, renderIcon: CiscoIcons.switch, color: '#30D158', label: '交换机', portColor: '#32D74B' },
+  cloud: { icon: CiscoIcons.cloud, renderIcon: CiscoIcons.cloud, color: '#BF5AF2', label: '云', portColor: '#E0A6FF' },
 }
 
 export default function ExperimentCanvas({ protocol, config = {}, onBack }: ExperimentCanvasProps) {
@@ -601,9 +598,9 @@ export default function ExperimentCanvas({ protocol, config = {}, onBack }: Expe
                     <div className="port port-west"></div>
                   </div>
 
-                  {/* 设备主体 */}
-                  <div className="device-icon lab-device-icon" style={{ background: `linear-gradient(135deg, ${DeviceConfig.color}, ${DeviceConfig.color}dd)` }}>
-                    <DeviceConfig.icon />
+                  {/* 设备主体 - Cisco 图标 */}
+                  <div className="device-icon cisco-device-icon">
+                    <DeviceConfig.renderIcon className="cisco-icon-svg" />
                     {/* 设备光晕 */}
                     <div className="lab-device-glow"></div>
                   </div>
